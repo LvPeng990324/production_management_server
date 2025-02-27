@@ -5,7 +5,7 @@ def pack_order_info(order: Order):
     """ 打包订单信息
     """
     return {
-        "id": order.id,
+        "order_id": order.id,
         "order_num": order.order_num,
         "order_status": order.order_status,
         "order_start_time": order.order_start_time,
