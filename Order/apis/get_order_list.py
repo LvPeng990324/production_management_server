@@ -10,8 +10,13 @@ def get_order_list(request):
     """ 获取order列表
     GET请求
     """
+    order_num = request.GET.get('order_num')
 
     orders = Order.objects.all()
+
+    # 筛选
+    if order_num:
+        orders = orders.filter(order_num__contains=order_num)
 
     order_info_list = pack_order_info_list(orders=orders)
 
