@@ -25,7 +25,7 @@ def edit_supplier(request):
 
     # 修改
     if name != supplier.name:
-        edit_log_record['name'] = [supplier.order_num, name]
+        edit_log_record['name'] = [supplier.name, name]
         supplier.name = name
 
     if phone != supplier.phone:
