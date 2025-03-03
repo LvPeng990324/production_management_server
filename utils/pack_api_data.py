@@ -11,7 +11,7 @@ def pack_order_info(order: Order):
         "order_id": order.id,
         "order_num": order.order_num,
         "order_status": order.order_status,
-        "order_start_time": order.order_start_time,
+        "order_start_time": str(order.order_start_time),
     }
 
 

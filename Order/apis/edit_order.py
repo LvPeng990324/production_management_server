@@ -42,8 +42,6 @@ def edit_order(request):
 
     order.save()
 
-    print('修改了', edit_log_record)
-
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',
     })
