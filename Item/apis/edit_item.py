@@ -27,7 +27,7 @@ def edit_item(request):
         edit_log_record['name'] = [item.name, name]
         item.name = name
 
-    name.save()
+    item.save()
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',
