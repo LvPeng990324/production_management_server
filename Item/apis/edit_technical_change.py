@@ -27,7 +27,7 @@ def edit_technical_change(request):
         edit_log_record['name'] = [technical_change.name, name]
         technical_change.name = name
 
-    name.save()
+    technical_change.save()
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',
