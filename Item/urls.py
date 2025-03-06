@@ -8,6 +8,10 @@ from Item.apis.add_technical_change import add_technical_change
 from Item.apis.get_technical_change_list import get_technical_change_list
 from Item.apis.edit_technical_change import edit_technical_change
 from Item.apis.delete_technical_change import delete_technical_change
+from Item.apis.add_inspection_code import add_inspection_code
+from Item.apis.delete_inspection_code import delete_inspection_code
+from Item.apis.edit_inspection_code import edit_inspection_code
+from Item.apis.get_inspection_code_list import get_inspection_code_list
 
 
 app_name = 'Item'
@@ -29,4 +33,12 @@ urlpatterns = [
     path('edit-technical-change/', edit_technical_change, name='edit_technical_change'),
     # 删除技术变更
     path('delete-technical-change/', delete_technical_change, name='delete_technical_change'),
+    # 新增检验代码
+    path('add-inspection-code/', add_inspection_code, name='add_inspection_code'),
+    # 删除检验代码
+    path('delete-inspection-code/', delete_inspection_code, name='delete_inspection_code'),
+    # 编辑检验代码
+    path('edit-inspection-code/', edit_inspection_code, name='edit_inspection_code'),
+    # 获取检验代码列表
+    path('get-inspection-code-list/', get_inspection_code_list, name='get_inspection_code_list'),
 ]

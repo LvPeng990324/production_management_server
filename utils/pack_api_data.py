@@ -2,6 +2,7 @@ from Order.models import Order
 from Supplier.models import Supplier
 from Item.models import Item
 from Item.models import TechnicalChange
+from Item.models import InspectionCode
 
 
 def pack_order_info(order: Order):
@@ -81,3 +82,22 @@ def pack_technical_change_info_list(technical_changes: list[TechnicalChange]):
         technical_change_info_list.append(pack_technical_change_info(technical_change=technical_change))
     
     return technical_change_info_list
+
+
+def pack_inspection_code_info(inspection_code: InspectionCode):
+    """ 打包检验代码信息
+    """
+    return {
+        "inspection_code_id": inspection_code.id,
+        "name": inspection_code.name,
+    }
+
+
+def pack_inspection_code_info_list(inspection_codes: list[InspectionCode]):
+    """ 打包检验代码信息列表
+    """
+    inspection_code_info_list = []
+    for inspection_code in inspection_codes:
+        inspection_code_info_list.append(pack_inspection_code_info(inspection_code=inspection_code))
+    
+    return inspection_code_info_list
