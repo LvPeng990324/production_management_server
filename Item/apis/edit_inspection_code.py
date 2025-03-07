@@ -15,8 +15,8 @@ def edit_inspection_code(request):
         inspection_code = InspectionCode.objects.get(id=inspection_code_id)
     except InspectionCode.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-        "msg": '该检验代码不存在',
-    })
+            "msg": '该检验代码不存在',
+        })
 
     # 记录本次修改的内容
     # {字段名: [旧值, 新值]}

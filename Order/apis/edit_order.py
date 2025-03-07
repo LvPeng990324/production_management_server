@@ -19,8 +19,8 @@ def edit_order(request):
         order = Order.objects.get(id=order_id)
     except Order.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-        "msg": '该订单不存在',
-    })
+            "msg": '该订单不存在',
+        })
 
     # 记录本次修改的内容
     # {字段名: [旧值, 新值]}

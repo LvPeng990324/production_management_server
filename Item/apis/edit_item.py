@@ -15,8 +15,8 @@ def edit_item(request):
         item = Item.objects.get(id=item_id)
     except Item.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-        "msg": '该物品不存在',
-    })
+            "msg": '该物品不存在',
+        })
 
     # 记录本次修改的内容
     # {字段名: [旧值, 新值]}

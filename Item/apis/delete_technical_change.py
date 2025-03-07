@@ -14,8 +14,8 @@ def delete_technical_change(request):
         technical_change = TechnicalChange.objects.get(id=technical_change_id)
     except TechnicalChange.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-        "msg": '该技术变更不存在',
-    })
+            "msg": '该技术变更不存在',
+        })
 
     technical_change.delete()
 
