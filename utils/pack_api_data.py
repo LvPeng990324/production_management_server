@@ -26,6 +26,19 @@ def pack_order_info_list(orders: list[Order]):
     return order_info_list
 
 
+def pack_order_select_info_list(orders: list[Order]):
+    """ 打包订单选项信息列表
+    """
+    order_select_info_list = []
+    for order in orders:
+        order_select_info_list.append({
+            "value": order.id,
+            "label": order.order_num,
+        })
+    
+    return order_select_info_list
+
+
 def pack_supplier_info(supplier: Supplier):
     """ 打包供应商信息
     """
@@ -49,9 +62,23 @@ def pack_supplier_info_list(suppliers: list[Supplier]):
 def pack_item_info(item: Item):
     """ 打包物品信息
     """
+    # 打包订单号
+    order_num = '/'
+    if item.order:
+        order_num = item.order.order_num
+
+    # 打包上级物品名称
+    parent_item_name = '/'
+    if item.parent_item:
+        parent_item_name = item.parent_item.name
+
     return {
         "item_id": item.id,
         "name": item.name,
+        "order_num": order_num,
+        "order_id": item.order_id,
+        "parent_item_name": parent_item_name,
+        "parent_item_id": item.parent_item_id,
     }
 
 
@@ -63,6 +90,19 @@ def pack_item_info_list(items: list[Item]):
         item_info_list.append(pack_item_info(item=item))
     
     return item_info_list
+
+
+def pack_item_select_info_list(items: list[Item]):
+    """ 打包物品选项信息列表
+    """
+    item_select_info_list = []
+    for item in items:
+        item_select_info_list.append({
+            "value": item.id,
+            "label": item.name,
+        })
+    
+    return item_select_info_list
 
 
 def pack_technical_change_info(technical_change: TechnicalChange):

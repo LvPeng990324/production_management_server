@@ -1,9 +1,13 @@
 from django.db import models
 
+from Order.models import Order
+
 class Item(models.Model):
     """ 物品
     """
     name = models.CharField(max_length=32, verbose_name='名称', help_text='名称')
+    order = models.ForeignKey(to=Order, null=True, blank=True, on_delete=models.PROTECT, verbose_name='订单', help_text='订单')
+    parent_item = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, verbose_name='上级物品', help_text='上级物品')
 
     class Meta:
         verbose_name_plural = '物品'
