@@ -71,6 +71,9 @@ def pack_item_info(item: Item):
     parent_item_name = '/'
     if item.parent_item:
         parent_item_name = item.parent_item.name
+    
+    # 打包技术变更数量
+    technical_change_count = item.technicalchange_set.count()
 
     return {
         "item_id": item.id,
@@ -79,6 +82,7 @@ def pack_item_info(item: Item):
         "order_id": item.order_id,
         "parent_item_name": parent_item_name,
         "parent_item_id": item.parent_item_id,
+        "technical_change_count": technical_change_count,
     }
 
 
@@ -108,9 +112,16 @@ def pack_item_select_info_list(items: list[Item]):
 def pack_technical_change_info(technical_change: TechnicalChange):
     """ 打包技术变更信息
     """
+    # 打包物品名称
+    item_name = '/'
+    if technical_change.item:
+        item_name = technical_change.item.name
+
     return {
         "technical_change_id": technical_change.id,
         "name": technical_change.name,
+        "item_name": item_name,
+        "item_id": technical_change.item_id,
     }
 
 

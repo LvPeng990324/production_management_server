@@ -21,6 +21,7 @@ class TechnicalChange(models.Model):
     """ 技术变更
     """
     name = models.CharField(max_length=32, verbose_name='名称', help_text='名称')
+    item = models.ForeignKey(to=Item, null=True, blank=True, on_delete=models.PROTECT, verbose_name='物品', help_text='物品')
     
     class Meta:
         verbose_name_plural = '技术变更'

@@ -15,6 +15,7 @@ class ItemInformation(admin.ModelAdmin):
 class TechnicalChangeInformation(admin.ModelAdmin):
     list_display = (
         'name',
+        'item',
     )
 
 
