@@ -13,6 +13,7 @@ from Item.apis.delete_inspection_code import delete_inspection_code
 from Item.apis.edit_inspection_code import edit_inspection_code
 from Item.apis.get_inspection_code_list import get_inspection_code_list
 from Item.apis.get_item_list import get_item_select_list
+from Item.apis.get_inspection_code_list import get_inspection_code_select_list
 
 
 app_name = 'Item'
@@ -44,4 +45,6 @@ urlpatterns = [
     path('edit-inspection-code/', edit_inspection_code, name='edit_inspection_code'),
     # 获取检验代码列表
     path('get-inspection-code-list/', get_inspection_code_list, name='get_inspection_code_list'),
+    # 获取检验代码选项列表
+    path('get-inspection-code-select-list/', get_inspection_code_select_list, name='get_inspection_code_select_list'),
 ]

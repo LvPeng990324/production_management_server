@@ -75,6 +75,14 @@ def pack_item_info(item: Item):
     # 打包技术变更数量
     technical_change_count = item.technicalchange_set.count()
 
+    # 打包检验代码
+    inspection_code_id_list = []
+    inspection_code_name_list = []
+    inspection_codes = item.inspection_codes.all()
+    for inspection_code in inspection_codes:
+        inspection_code_id_list.append(inspection_code.id)
+        inspection_code_name_list.append(inspection_code.name)
+
     return {
         "item_id": item.id,
         "name": item.name,
@@ -83,6 +91,8 @@ def pack_item_info(item: Item):
         "parent_item_name": parent_item_name,
         "parent_item_id": item.parent_item_id,
         "technical_change_count": technical_change_count,
+        "inspection_code_id_list": inspection_code_id_list,
+        "inspection_code_name_list": inspection_code_name_list,
     }
 
 
@@ -152,3 +162,16 @@ def pack_inspection_code_info_list(inspection_codes: list[InspectionCode]):
         inspection_code_info_list.append(pack_inspection_code_info(inspection_code=inspection_code))
     
     return inspection_code_info_list
+
+
+def pack_inspection_code_select_info_list(inspection_codes: list[InspectionCode]):
+    """ 打包检验代码选项信息列表
+    """
+    inspection_code_select_info_list = []
+    for inspection_code in inspection_codes:
+        inspection_code_select_info_list.append({
+            "value": inspection_code.id,
+            "label": inspection_code.name,
+        })
+    
+    return inspection_code_select_info_list

@@ -1,4 +1,5 @@
 from Item.models import Item
+from Item.models import InspectionCode
 from Order.models import Order
 
 from utils.custom_response import json_response
@@ -12,6 +13,7 @@ def add_item(request):
     name = request.json.get('name')
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
+    inspection_code_id_list = request.json.get('inspection_code_id_list')
 
     # 实例化基础属性
     new_item = Item(
@@ -37,9 +39,14 @@ def add_item(request):
                 "msg": "该上级物品不存在",
             })
         new_item.parent_item = parent_item
-    
+
     # 提交
     new_item.save()
+
+    # 添加检验代码
+    if inspection_code_id_list:
+        inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
+        new_item.inspection_codes.set(inspection_codes)
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',

@@ -1,4 +1,5 @@
 from Item.models import Item
+from Item.models import InspectionCode
 from Order.models import Order
 
 from utils.custom_response import json_response
@@ -13,6 +14,7 @@ def edit_item(request):
     name = request.json.get('name')
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
+    inspection_code_id_list = request.json.get('inspection_code_id_list')
 
     # 转为对象
     order = None
@@ -52,8 +54,15 @@ def edit_item(request):
         item.order = order
 
     if parent_item != item.parent_item:
-        edit_log_record['parent_item'] = [str(parent_item), str(parent_item)]
+        edit_log_record['parent_item'] = [str(item.parent_item), str(parent_item)]
         item.parent_item = parent_item
+
+    inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
+    old_inspection_code_name_set = set(item.inspection_codes.values_list('name', flat=True))
+    new_inspection_code_name_set = set(inspection_codes.values_list('name', flat=True))
+    if old_inspection_code_name_set != new_inspection_code_name_set:
+        edit_log_record['inspection_codes'] = [str(old_inspection_code_name_set), str(new_inspection_code_name_set)]
+        item.inspection_codes.set(inspection_codes)
 
     item.save()
 
