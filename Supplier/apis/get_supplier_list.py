@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from Supplier.models import Supplier
 
 from utils.custom_response import ERROR_CODE
@@ -9,17 +10,29 @@ def get_supplier_list(request):
     """ 获取供应商列表
     GET请求
     """
+    current_page = request.GET.get('currentPage') or 1
+    page_size = request.GET.get('size') or 10
     name = request.GET.get('name')
 
     suppliers = Supplier.objects.all()
+    total = suppliers.count()
 
     # 筛选
     if name:
         suppliers = suppliers.filter(name__contains=name)
 
+    # 加入分页
+    paginator = Paginator(suppliers, page_size)
+    try:
+        suppliers = paginator.get_page(current_page)
+    except PageNotAnInteger:  # 页码非法，返回第一页
+        suppliers = paginator.get_page(1)
+    except EmptyPage:  # 页码超出范围，返回最后一页
+        suppliers = paginator.get_page(paginator.num_pages)
+
     supplier_info_list = pack_supplier_info_list(suppliers=suppliers)
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
-        "total": len(supplier_info_list),
+        "total": total,
         "list": supplier_info_list,
     })
