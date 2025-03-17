@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Item.apps.ItemConfig',
     'UserManagement.apps.UsermanagementConfig',
     'Dashboard.apps.DashboardConfig',
+    'SystemManagement.apps.SystemmanagementConfig',
 ]
 
 MIDDLEWARE = [

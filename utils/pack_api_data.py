@@ -3,6 +3,9 @@ from Supplier.models import Supplier
 from Item.models import Item
 from Item.models import TechnicalChange
 from Item.models import InspectionCode
+from SystemManagement.models import UserLog
+
+from utils.data_covert import datetime_to_str
 
 
 def pack_order_info(order: Order):
@@ -175,3 +178,30 @@ def pack_inspection_code_select_info_list(inspection_codes: list[InspectionCode]
         })
     
     return inspection_code_select_info_list
+
+
+def pack_user_log_info(user_log: UserLog):
+    """ 打包用户日志信息
+    """
+    # 打包用户名称
+    user_name = '/'
+    if user_log.user:
+        user_name = user_log.user.name
+
+    return {
+        "user_log_id": user_log.id,
+        "user_name": user_name,
+        "action": user_log.action,
+        "detail": user_log.detail,
+        "create_time": datetime_to_str(user_log.create_time),
+    }
+
+
+def pack_user_log_info_list(user_logs: list[UserLog]):
+    """ 打包用户日志信息列表
+    """
+    user_log_info_list = []
+    for user_log in user_logs:
+        user_log_info_list.append(pack_user_log_info(user_log=user_log))
+
+    return user_log_info_list

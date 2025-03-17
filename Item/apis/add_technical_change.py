@@ -3,6 +3,7 @@ from Item.models import Item
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def add_technical_change(request):
@@ -23,6 +24,14 @@ def add_technical_change(request):
     TechnicalChange.objects.create(
         name=name,
         item=item,
+    )
+
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='新增技术变更',
+        detail=f'''名字：{name}
+        关联物品：{item.name}'''
     )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={

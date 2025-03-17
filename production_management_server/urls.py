@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/user-management/', include('UserManagement.urls')),
     path('api/item/', include('Item.urls')),
     path('api/dashboard/', include('Dashboard.urls')),
+    path('api/system-management/', include('SystemManagement.urls')),
 ]

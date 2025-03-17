@@ -4,6 +4,7 @@ from Order.models import Order
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def add_item(request):
@@ -47,6 +48,24 @@ def add_item(request):
     if inspection_code_id_list:
         inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
         new_item.inspection_codes.set(inspection_codes)
+    
+    # 记录用户日志
+    order_num = '无'
+    if new_item.order:
+        order_num = new_item.order.order_num
+    parent_item_name = '无'
+    if new_item.parent_item:
+        parent_item_name = new_item.parent_item.name
+    inspection_code_name_list = list(new_item.inspection_codes.values_list('name', flat=True))
+    inspection_code_names = '、'.join(inspection_code_name_list)
+    add_user_log(
+        request=request,
+        action=f'新增物品',
+        detail=f'''名字：{name}
+        关联订单号：{order_num}
+        关联上级物品：{parent_item_name}
+        检验代码：{inspection_code_names}''',
+    )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',
