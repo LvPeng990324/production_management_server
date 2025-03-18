@@ -2,22 +2,28 @@ from UserManagement.models import User
 
 from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
+from utils.data_covert import str_to_md5
 
 
 def login(request):
     """ 登录
     POST请求
     """
-    # 先固定一个用户，等用户系统实现好了再完善
-    users = User.objects.all()
-    if not users.exists():
-        User.objects.create(
-            name='测试用户',
-            phone='11111111111',
-            password_md5='aaaaaa',
-        )
-        users = User.objects.all()
-    user = users.first()
+    phone = request.json.get('phone')
+    password_md5 = str_to_md5(request.json.get('password') or '')
+
+    try:
+        user = User.objects.get(phone=phone)
+    except User.DoesNotExist:
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "msg": "未找到该用户",
+        })
+
+    # 校验密码
+    if user.password_md5 != password_md5:
+        return json_response(code=ERROR_CODE.AUTH_FAIL, data={
+            "msg": "密码错误",
+        })
 
     # 记录session信息
     request.session['name'] = user.name

@@ -1,4 +1,5 @@
 import datetime
+from hashlib import md5
 
 
 def str_to_datetime(datetime_str: str):
@@ -26,3 +27,11 @@ def datetime_to_str(datetime: datetime.datetime):
     if not datetime:
         return ''
     return datetime.strftime('%Y-%m-%d %H:%M:%S')
+
+
+def str_to_md5(data: str):
+    """ 字符串转md5
+    """
+    mixer = md5()
+    mixer.update(data.encode('utf8'))
+    return mixer.hexdigest()
