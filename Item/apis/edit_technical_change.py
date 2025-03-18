@@ -3,6 +3,7 @@ from Item.models import Item
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def edit_technical_change(request):
@@ -27,17 +28,16 @@ def edit_technical_change(request):
             "msg": '该物品不存在',
         })
 
-    # 记录本次修改的内容
-    # {字段名: [旧值, 新值]}
-    edit_log_record = {}
+    # 记录本次修改的内容描述
+    edit_log_str = ''
 
     # 修改
     if name != technical_change.name:
-        edit_log_record['name'] = [technical_change.name, name]
+        edit_log_str += f'名字：{technical_change.name} -> {name}\n'
         technical_change.name = name
     
     if item != technical_change.item:
-        edit_log_record['item'] = [str(technical_change.item), str(item)]
+        edit_log_str += f'关联物品：{str(technical_change.item)} -> {str(item)}\n'
         technical_change.item = item
 
     technical_change.save()

@@ -3,7 +3,7 @@ from Order.models import OrderStatus
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
-from utils.data_covert import str_to_datetime
+from utils.user_log import add_user_log
 
 
 def delete_order(request):
@@ -19,7 +19,17 @@ def delete_order(request):
             "msg": '该订单不存在',
         })
 
+    # 缓存日志数据
+    order_num = order.order_num
+
     order.delete()
+
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='删除订单',
+        detail=f'{order_num}',
+    )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',

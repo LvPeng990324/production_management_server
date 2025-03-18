@@ -2,6 +2,7 @@ from Item.models import InspectionCode
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def edit_inspection_code(request):
@@ -18,16 +19,22 @@ def edit_inspection_code(request):
             "msg": '该检验代码不存在',
         })
 
-    # 记录本次修改的内容
-    # {字段名: [旧值, 新值]}
-    edit_log_record = {}
+    # 记录本次修改的内容描述
+    edit_log_str = ''
 
     # 修改
     if name != inspection_code.name:
-        edit_log_record['name'] = [inspection_code.name, name]
+        edit_log_str += f'名字：{inspection_code.name} -> {name}\n'
         inspection_code.name = name
 
     inspection_code.save()
+
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='编辑检验代码',
+        detail=edit_log_str,
+    )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',

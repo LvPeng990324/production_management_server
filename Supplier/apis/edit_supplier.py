@@ -2,6 +2,7 @@ from Supplier.models import Supplier
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def edit_supplier(request):
@@ -19,20 +20,26 @@ def edit_supplier(request):
             "msg": '该供应商不存在',
         })
 
-    # 记录本次修改的内容
-    # {字段名: [旧值, 新值]}
-    edit_log_record = {}
+    # 记录本次修改的内容描述
+    edit_log_str = ''
 
     # 修改
     if name != supplier.name:
-        edit_log_record['name'] = [supplier.name, name]
+        edit_log_str += f'名字：{supplier.name} -> {name}\n'
         supplier.name = name
 
     if phone != supplier.phone:
-        edit_log_record['phone'] = [supplier.phone, phone]
+        edit_log_str += f'手机号：{supplier.phone} -> {phone}\n'
         supplier.phone = phone
 
     supplier.save()
+
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='编辑供应商',
+        detail=edit_log_str,
+    )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',

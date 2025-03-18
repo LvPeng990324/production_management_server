@@ -4,6 +4,7 @@ from Order.models import Order
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def edit_item(request):
@@ -40,31 +41,37 @@ def edit_item(request):
             "msg": '该物品不存在',
         })
 
-    # 记录本次修改的内容
-    # {字段名: [旧值, 新值]}
-    edit_log_record = {}
+    # 记录本次修改的内容描述
+    edit_log_str = ''
 
     # 修改
     if name != item.name:
-        edit_log_record['name'] = [item.name, name]
+        edit_log_str += f'名字：{item.name} -> {name}\n'
         item.name = name
 
     if order != item.order:
-        edit_log_record['order'] = [str(item.order), str(order)]
+        edit_log_str += f'订单：{str(item.order)} -> {str(order)}\n'
         item.order = order
 
     if parent_item != item.parent_item:
-        edit_log_record['parent_item'] = [str(item.parent_item), str(parent_item)]
+        edit_log_str += f'上级物品：{str(item.parent_item)} -> {parent_item}\n'
         item.parent_item = parent_item
 
     inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
     old_inspection_code_name_set = set(item.inspection_codes.values_list('name', flat=True))
     new_inspection_code_name_set = set(inspection_codes.values_list('name', flat=True))
     if old_inspection_code_name_set != new_inspection_code_name_set:
-        edit_log_record['inspection_codes'] = [str(old_inspection_code_name_set), str(new_inspection_code_name_set)]
+        edit_log_str += f'检验代码：{str(old_inspection_code_name_set)} -> {str(new_inspection_code_name_set)}\n'
         item.inspection_codes.set(inspection_codes)
 
     item.save()
+
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='编辑物品',
+        detail=edit_log_str,
+    )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',

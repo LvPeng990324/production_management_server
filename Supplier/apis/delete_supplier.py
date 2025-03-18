@@ -2,6 +2,7 @@ from Supplier.models import Supplier
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.user_log import add_user_log
 
 
 def delete_supplier(request):
@@ -17,7 +18,17 @@ def delete_supplier(request):
             "msg": '该订单不存在',
         })
 
+    # 缓存日志数据
+    name = supplier.name
+
     supplier.delete()
+
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='删除供应商',
+        detail=f'{name}',
+    )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',
