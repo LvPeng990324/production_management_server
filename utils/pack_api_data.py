@@ -7,6 +7,8 @@ from SystemManagement.models import UserLog
 
 from utils.data_covert import datetime_to_str
 from utils.data_covert import fen_to_yuan
+from utils.data_calc import calc_item_total_cost
+from utils.data_calc import calc_order_total_cost
 
 
 def pack_order_info(order: Order):
@@ -17,6 +19,7 @@ def pack_order_info(order: Order):
         "order_num": order.order_num,
         "order_status": order.order_status,
         "order_start_time": str(order.order_start_time),
+        "total_cost": fen_to_yuan(calc_order_total_cost(order=order)),
     }
 
 
@@ -87,9 +90,6 @@ def pack_item_info(item: Item):
         inspection_code_id_list.append(inspection_code.id)
         inspection_code_name_list.append(inspection_code.name)
 
-    # TODO 计算总成本
-    total_cost = 0
-
     return {
         "item_id": item.id,
         "name": item.name,
@@ -101,7 +101,7 @@ def pack_item_info(item: Item):
         "inspection_code_id_list": inspection_code_id_list,
         "inspection_code_name_list": inspection_code_name_list,
         "cost": fen_to_yuan(item.cost),
-        "total_cost": fen_to_yuan(total_cost),
+        "total_cost": fen_to_yuan(calc_item_total_cost(item=item)),
     }
 
 
