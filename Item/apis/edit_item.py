@@ -5,6 +5,8 @@ from Order.models import Order
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
+from utils.data_covert import yuan_to_fen
+from utils.data_covert import fen_to_yuan
 
 
 def edit_item(request):
@@ -15,6 +17,7 @@ def edit_item(request):
     name = request.json.get('name')
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
+    cost = yuan_to_fen(request.json.get('cost'))
     inspection_code_id_list = request.json.get('inspection_code_id_list')
 
     # 转为对象
@@ -56,6 +59,10 @@ def edit_item(request):
     if parent_item != item.parent_item:
         edit_log_str += f'上级物品：{str(item.parent_item)} -> {parent_item}\n'
         item.parent_item = parent_item
+
+    if cost != item.cost:
+        edit_log_str += f'成本：{fen_to_yuan(item.cost)} -> {fen_to_yuan(cost)}\n'
+        item.cost = cost
 
     inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
     old_inspection_code_name_set = set(item.inspection_codes.values_list('name', flat=True))

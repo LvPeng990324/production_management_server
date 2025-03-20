@@ -1,5 +1,6 @@
 import datetime
 from hashlib import md5
+from typing import Union
 
 
 def str_to_datetime(datetime_str: str):
@@ -35,3 +36,21 @@ def str_to_md5(data: str):
     mixer = md5()
     mixer.update(data.encode('utf8'))
     return mixer.hexdigest()
+
+
+def yuan_to_fen(yuan: Union[float, str]):
+    """ 元转分
+    """
+    yuan = float(yuan or 0)
+    return int(yuan * 100)
+
+
+def fen_to_yuan(fen: int):
+    """ 分转元
+    """
+    fen = fen or 0
+
+    if fen % 100 == 0:
+        return fen // 100
+
+    return fen / 100

@@ -5,6 +5,7 @@ from Order.models import Order
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
+from utils.data_covert import yuan_to_fen
 
 
 def add_item(request):
@@ -14,11 +15,13 @@ def add_item(request):
     name = request.json.get('name')
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
+    cost = yuan_to_fen(request.json.get('cost'))
     inspection_code_id_list = request.json.get('inspection_code_id_list')
 
     # 实例化基础属性
     new_item = Item(
         name=name,
+        cost=cost,
     )
 
     # 判断添加关联订单
@@ -64,6 +67,7 @@ def add_item(request):
         detail=f'''名字：{name}
         关联订单号：{order_num}
         关联上级物品：{parent_item_name}
+        成本：{cost / 100}
         检验代码：{inspection_code_names}''',
     )
 
