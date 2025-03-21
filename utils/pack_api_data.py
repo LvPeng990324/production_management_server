@@ -9,6 +9,7 @@ from utils.data_covert import datetime_to_str
 from utils.data_covert import fen_to_yuan
 from utils.data_calc import calc_item_total_cost
 from utils.data_calc import calc_order_total_cost
+from utils.data_calc import calc_item_level
 
 
 def pack_order_info(order: Order):
@@ -102,6 +103,7 @@ def pack_item_info(item: Item):
         "inspection_code_name_list": inspection_code_name_list,
         "cost": fen_to_yuan(item.cost),
         "total_cost": fen_to_yuan(calc_item_total_cost(item=item)),
+        "level": calc_item_level(item=item),
     }
 
 

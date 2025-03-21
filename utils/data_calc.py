@@ -30,3 +30,15 @@ def calc_order_total_cost(order: Order):
         total += item.cost
 
     return total
+
+
+def calc_item_level(item: Item):
+    """ 计算物品层级
+    """
+    level = 1
+    
+    while item.parent_item:
+        item = item.parent_item
+        level += 1
+    
+    return level
