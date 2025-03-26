@@ -132,4 +132,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 设置跨域规则
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://production-management.lvpeng990324.cn",
+]
+CORS_ALLOW_CREDENTIALS = True  # 允许发送 Cookie
