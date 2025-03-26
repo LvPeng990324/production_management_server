@@ -8,6 +8,7 @@ from utils.user_log import add_user_log
 from utils.data_covert import yuan_to_fen
 from utils.data_covert import fen_to_yuan
 from utils.permission_check import login_required
+from utils.data_calc import check_item_circle_quote
 
 
 @login_required
@@ -72,6 +73,12 @@ def edit_item(request):
     if old_inspection_code_name_set != new_inspection_code_name_set:
         edit_log_str += f'检验代码：{str(old_inspection_code_name_set)} -> {str(new_inspection_code_name_set)}\n'
         item.inspection_codes.set(inspection_codes)
+
+    # 检查循环引用
+    if not check_item_circle_quote(item=item):
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "msg": "操作会导致物品循环引用，检查上级物品合理性",
+        })
 
     item.save()
 

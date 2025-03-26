@@ -7,6 +7,7 @@ from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
 from utils.data_covert import yuan_to_fen
 from utils.permission_check import login_required
+from utils.data_calc import check_item_circle_quote
 
 
 @login_required
@@ -45,6 +46,12 @@ def add_item(request):
                 "msg": "该上级物品不存在",
             })
         new_item.parent_item = parent_item
+    
+    # 检查是否有循环引用
+    if not check_item_circle_quote(item=new_item):
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "msg": "操作会导致物品循环引用，检查上级物品合理性",
+        })
 
     # 提交
     new_item.save()

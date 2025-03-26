@@ -42,3 +42,18 @@ def calc_item_level(item: Item):
         level += 1
     
     return level
+
+
+def check_item_circle_quote(item: Item):
+    """ 检查物品循环引用
+    """
+    appeared_item_set = {item}  # 记录出现过的物品set
+    while item.parent_item:
+        if item.parent_item in appeared_item_set:
+            return False  # 出现了重复元素，判定为重复引用
+        # 加入记录
+        appeared_item_set.add(item.parent_item)
+        # 取上层物品为当前物品
+        item = item.parent_item
+    # 成功结束，没有循环引用
+    return True
