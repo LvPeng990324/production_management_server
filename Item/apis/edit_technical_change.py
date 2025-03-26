@@ -44,6 +44,13 @@ def edit_technical_change(request):
 
     technical_change.save()
 
+    # 记录用户日志
+    add_user_log(
+        request=request,
+        action='编辑技术变更',
+        detail=edit_log_str,
+    )
+
     return json_response(code=ERROR_CODE.SUCCESS, data={
         "res": 'success',
     })
