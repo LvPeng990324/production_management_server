@@ -3,8 +3,10 @@ from Item.models import InspectionCode
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
+from utils.permission_check import login_required
 
 
+@login_required
 def add_inspection_code(request):
     """ 新增检验代码
     POST请求

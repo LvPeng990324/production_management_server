@@ -4,8 +4,10 @@ from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.user_log import add_user_log
 from utils.data_covert import str_to_md5
+from utils.permission_check import login_required
 
 
+@login_required
 def change_self_info(request):
     """ 更改自己信息
     POST请求

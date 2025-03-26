@@ -7,8 +7,10 @@ from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
 from utils.data_covert import yuan_to_fen
 from utils.data_covert import fen_to_yuan
+from utils.permission_check import login_required
 
 
+@login_required
 def edit_item(request):
     """ 编辑物品
     POST请求

@@ -6,8 +6,10 @@ from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
 from utils.data_covert import yuan_to_fen
+from utils.permission_check import login_required
 
 
+@login_required
 def add_item(request):
     """ 新增物品
     POST请求

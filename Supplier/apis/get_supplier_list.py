@@ -4,8 +4,10 @@ from Supplier.models import Supplier
 from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_supplier_info_list
+from utils.permission_check import login_required
 
 
+@login_required
 def get_supplier_list(request):
     """ 获取供应商列表
     GET请求

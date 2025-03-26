@@ -6,8 +6,10 @@ from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_inspection_code_info_list
 from utils.pack_api_data import pack_inspection_code_select_info_list
+from utils.permission_check import login_required
 
 
+@login_required
 def get_inspection_code_list(request):
     """ 获取检验代码列表
     GET请求
@@ -40,6 +42,7 @@ def get_inspection_code_list(request):
     })
 
 
+@login_required
 def get_inspection_code_select_list(request):
     """ 获取检验代码选项列表
     GET 请求

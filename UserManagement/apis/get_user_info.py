@@ -1,7 +1,9 @@
 from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
+from utils.permission_check import login_required
 
 
+@login_required
 def get_user_info(request):
     """ 获取用户信息
     GET请求

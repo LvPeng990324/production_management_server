@@ -6,8 +6,10 @@ from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_item_info_list
 from utils.pack_api_data import pack_item_select_info_list
+from utils.permission_check import login_required
 
 
+@login_required
 def get_item_list(request):
     """ 获取物品列表
     GET请求
@@ -40,6 +42,7 @@ def get_item_list(request):
     })
 
 
+@login_required
 def get_item_select_list(request):
     """ 获取物品选项列表
     GET 请求

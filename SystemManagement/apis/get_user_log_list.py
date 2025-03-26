@@ -5,8 +5,10 @@ from SystemManagement.models import UserLog
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.pack_api_data import pack_user_log_info_list
+from utils.permission_check import login_required
 
 
+@login_required
 def get_user_log_list(request):
     """ 获取用户日志列表
     GET请求

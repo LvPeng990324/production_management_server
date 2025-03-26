@@ -5,8 +5,10 @@ from Item.models import TechnicalChange
 from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_technical_change_info_list
+from utils.permission_check import login_required
 
 
+@login_required
 def get_technical_change_list(request):
     """ 获取技术变更列表
     GET请求

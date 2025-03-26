@@ -3,8 +3,10 @@ from Supplier.models import Supplier
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
+from utils.permission_check import login_required
 
 
+@login_required
 def get_dashboard_show_data(request):
     """ 获取首页展示数据
     GET请求

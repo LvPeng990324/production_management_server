@@ -6,7 +6,8 @@ from enum import Enum
 class ERROR_CODE(Enum):
     SUCCESS = 0
     NOT_FOUND = 1
-    AUTH_FAIL = 1
+    AUTH_FAIL = 2
+    TOKEN_EXPIRE = 401
 
 
 def json_response(code: ERROR_CODE, data: dict):

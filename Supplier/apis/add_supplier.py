@@ -3,8 +3,10 @@ from Supplier.models import Supplier
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
+from utils.permission_check import login_required
 
 
+@login_required
 def add_supplier(request):
     """ 新增供应商
     POST请求

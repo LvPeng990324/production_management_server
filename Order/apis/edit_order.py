@@ -6,8 +6,10 @@ from utils.custom_response import ERROR_CODE
 from utils.data_covert import str_to_datetime
 from utils.data_covert import datetime_to_str
 from utils.user_log import add_user_log
+from utils.permission_check import login_required
 
 
+@login_required
 def edit_order(request):
     """ 编辑order
     POST请求

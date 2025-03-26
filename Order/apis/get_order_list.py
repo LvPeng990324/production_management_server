@@ -6,8 +6,10 @@ from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_order_info_list
 from utils.pack_api_data import pack_order_select_info_list
+from utils.permission_check import login_required
 
 
+@login_required
 def get_order_list(request):
     """ 获取order列表
     GET请求
@@ -40,6 +42,7 @@ def get_order_list(request):
     })
 
 
+@login_required
 def get_order_select_list(request):
     """ 获取order选项列表
     GET请求
