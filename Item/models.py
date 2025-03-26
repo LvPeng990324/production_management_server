@@ -23,6 +23,7 @@ class Item(models.Model):
     parent_item = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, verbose_name='上级物品', help_text='上级物品')
     inspection_codes = models.ManyToManyField(to=InspectionCode, verbose_name='检验代码', help_text='检验代码')
     cost = models.IntegerField(default=0, verbose_name='成本', help_text='成本')  # 单位是分
+    num = models.IntegerField(default=1, verbose_name='数量', help_text='数量')
 
     class Meta:
         verbose_name_plural = '物品'

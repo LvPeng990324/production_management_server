@@ -22,6 +22,7 @@ def edit_item(request):
     parent_item_id = request.json.get('parent_item_id')
     cost = yuan_to_fen(request.json.get('cost'))
     inspection_code_id_list = request.json.get('inspection_code_id_list')
+    num = request.json.get('num')
 
     # 转为对象
     order = None
@@ -66,6 +67,10 @@ def edit_item(request):
     if cost != item.cost:
         edit_log_str += f'成本：{fen_to_yuan(item.cost)} -> {fen_to_yuan(cost)}\n'
         item.cost = cost
+
+    if num != item.num:
+        edit_log_str += f'数量：{item.num} -> {num}\n'
+        item.num = num
 
     inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
     old_inspection_code_name_set = set(item.inspection_codes.values_list('name', flat=True))

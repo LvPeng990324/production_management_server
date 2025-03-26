@@ -20,11 +20,13 @@ def add_item(request):
     parent_item_id = request.json.get('parent_item_id')
     cost = yuan_to_fen(request.json.get('cost'))
     inspection_code_id_list = request.json.get('inspection_code_id_list')
+    num = request.json.get('num')
 
     # 实例化基础属性
     new_item = Item(
         name=name,
         cost=cost,
+        num=num,
     )
 
     # 判断添加关联订单
@@ -77,6 +79,7 @@ def add_item(request):
         关联订单号：{order_num}
         关联上级物品：{parent_item_name}
         成本：{cost / 100}
+        数量：num
         检验代码：{inspection_code_names}''',
     )
 

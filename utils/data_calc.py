@@ -57,3 +57,17 @@ def check_item_circle_quote(item: Item):
         item = item.parent_item
     # 成功结束，没有循环引用
     return True
+
+
+def calc_item_total_num(item: Item):
+    """ 计算物品总数量
+    上级物品数量会影响下级物品总数量
+    """
+    total_num = item.num
+    parent_item = item.parent_item
+    # 往上追溯，一直到没有上级物品，累乘数量
+    while parent_item:
+        total_num *= parent_item.num
+        # 追溯
+        parent_item = parent_item.parent_item
+    return total_num

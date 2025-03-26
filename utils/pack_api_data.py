@@ -10,6 +10,7 @@ from utils.data_covert import fen_to_yuan
 from utils.data_calc import calc_item_total_cost
 from utils.data_calc import calc_order_total_cost
 from utils.data_calc import calc_item_level
+from utils.data_calc import calc_item_total_num
 
 
 def pack_order_info(order: Order):
@@ -104,6 +105,8 @@ def pack_item_info(item: Item):
         "cost": fen_to_yuan(item.cost),
         "total_cost": fen_to_yuan(calc_item_total_cost(item=item)),
         "level": calc_item_level(item=item),
+        "num": item.num,
+        "total_num": calc_item_total_num(item=item),
     }
 
 
