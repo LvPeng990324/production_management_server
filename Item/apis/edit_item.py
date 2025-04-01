@@ -39,6 +39,7 @@ def edit_item(request):
     classification = request.json.get('classification')
     paint_type = request.json.get('paint_type')
     color_number = request.json.get('colcr_number')
+    packing_number = request.json.get('packing_number')
 
     # 转为对象
     order = None
@@ -151,6 +152,10 @@ def edit_item(request):
     if color_number != item.color_number:
         edit_log_str += f'色号：{item.color_number} -> {color_number}\n'
         item.color_number = color_number
+
+    if packing_number != item.packing_number:
+        edit_log_str += f'箱单号：{item.packing_number} -> {packing_number}\n'
+        item.packing_number = packing_number
 
     inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
     old_inspection_code_name_set = set(item.inspection_codes.values_list('name', flat=True))

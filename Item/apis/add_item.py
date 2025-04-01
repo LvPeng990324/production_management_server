@@ -37,6 +37,7 @@ def add_item(request):
     classification = request.json.get('classification')
     paint_type = request.json.get('paint_type')
     color_number = request.json.get('colcr_number')
+    packing_number = request.json.get('packing_number')
 
     # 实例化基础属性
     new_item = Item(
@@ -59,6 +60,7 @@ def add_item(request):
         classification=classification,
         paint_type=paint_type,
         color_number=color_number,
+        packing_number=packing_number,
     )
 
     # 判断添加关联订单
@@ -132,7 +134,8 @@ def add_item(request):
         DanieliStandard：{danieli_standard}
         Classification：{classification}
         油漆种类：{paint_type}
-        色号：{color_number}''',
+        色号：{color_number}
+        箱单号：{packing_number}''',
     )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={

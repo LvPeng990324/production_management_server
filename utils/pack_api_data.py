@@ -7,7 +7,7 @@ from SystemManagement.models import UserLog
 
 from utils.data_covert import datetime_to_str
 from utils.data_covert import fen_to_yuan
-from utils.data_calc import calc_item_total_cost
+from utils.data_calc import calc_item_children_total_data
 from utils.data_calc import calc_order_total_cost
 from utils.data_calc import calc_item_level
 from utils.data_calc import calc_item_total_num
@@ -20,11 +20,18 @@ def pack_order_info(order: Order):
     order_item_info_list = []
     order_items = Item.objects.filter(order=order, parent_item=None)
     for order_item in order_items:
+        # 打包物品子节点相关总数据
+        item_children_total_data_dict = calc_item_children_total_data(item=order_item)
+
         order_item_info_list.append({
             "name": order_item.name,
+            "num": order_item.num,
             "cost": fen_to_yuan(order_item.cost),
+            "total_cost": fen_to_yuan(item_children_total_data_dict.get('total_cost')),
             "sell_price": fen_to_yuan(order_item.sell_price),
+            "total_sell_price": fen_to_yuan(item_children_total_data_dict.get('total_sell_price')),
             "model": order_item.model,
+            "packing_number": order_item.packing_number,
         })
 
     return {
@@ -103,6 +110,9 @@ def pack_item_info(item: Item):
     for inspection_code in inspection_codes:
         inspection_code_id_list.append(inspection_code.id)
         inspection_code_name_list.append(inspection_code.name)
+    
+    # 打包物品子节点相关总数据
+    item_children_total_data_dict = calc_item_children_total_data(item=item)
 
     return {
         "item_id": item.id,
@@ -117,7 +127,7 @@ def pack_item_info(item: Item):
         "cost": fen_to_yuan(item.cost),
         "sell_price": fen_to_yuan(item.sell_price),
         "model": item.model,
-        "total_cost": fen_to_yuan(calc_item_total_cost(item=item)),
+        "total_cost": fen_to_yuan(item_children_total_data_dict.get('total_cost')),
         "level": calc_item_level(item=item),
         "num": item.num,
         "total_num": calc_item_total_num(item=item),
@@ -135,6 +145,7 @@ def pack_item_info(item: Item):
         "classification": item.classification,
         "paint_type": item.paint_type,
         "color_number": item.color_number,
+        "packing_number": item.packing_number,
     }
 
 

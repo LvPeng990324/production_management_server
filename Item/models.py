@@ -40,6 +40,7 @@ class Item(models.Model):
     classification = models.CharField(max_length=128, blank=True, null=True, verbose_name='类别', help_text='类别')
     paint_type = models.CharField(max_length=128, blank=True, null=True, verbose_name='油漆种类', help_text='油漆种类')
     color_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='色号', help_text='色号')
+    packing_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='箱单号', help_text='箱单号')
 
     class Meta:
         verbose_name_plural = '物品'

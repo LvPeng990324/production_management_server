@@ -2,21 +2,29 @@ from Item.models import Item
 from Order.models import Order
 
 
-def calc_item_total_cost(item: Item):
-    """ 计算物品总成本
+def calc_item_children_total_data(item: Item):
+    """ 计算物品子节点相关所有总数据
+    总成本
+    销售总价
     """
-    total = item.cost
+    total_cost = item.cost
+    total_sell_price = item.sell_price
 
     queue = list(item.item_set.all())
     while queue:
-        level_total = sum(item.cost for item in queue)
-        total += level_total
+        for item in queue:
+            total_cost += item.cost
+            total_sell_price += item.sell_price
+
         next_queue = []
         for item in queue:
             next_queue.extend(item.item_set.all())
         queue = next_queue
 
-    return total
+    return {
+        "total_cost": total_cost,
+        "total_sell_price": total_sell_price,
+    }
 
 
 def calc_order_total_cost(order: Order):
