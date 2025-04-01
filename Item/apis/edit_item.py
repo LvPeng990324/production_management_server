@@ -48,18 +48,18 @@ def edit_item(request):
             parent_item = Item.objects.get(id=parent_item_id)
     except Order.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "该订单不存在",
+            "message": "该订单不存在",
         })
     except Item.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "该上级物品不存在",
+            "message": "该上级物品不存在",
         })
 
     try:
         item = Item.objects.get(id=item_id)
     except Item.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": '该物品不存在',
+            "message": '该物品不存在',
         })
 
     # 记录本次修改的内容描述
@@ -152,7 +152,7 @@ def edit_item(request):
     # 检查循环引用
     if not check_item_circle_quote(item=item):
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "操作会导致物品循环引用，检查上级物品合理性",
+            "message": "操作会导致物品循环引用，检查上级物品合理性",
         })
 
     item.save()

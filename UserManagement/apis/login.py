@@ -16,13 +16,13 @@ def login(request):
         user = User.objects.get(phone=phone)
     except User.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "未找到该用户",
+            "message": "未找到该用户",
         })
 
     # 校验密码
     if user.password_md5 != password_md5:
         return json_response(code=ERROR_CODE.AUTH_FAIL, data={
-            "msg": "密码错误",
+            "message": "密码错误",
         })
 
     # 记录session信息

@@ -21,7 +21,7 @@ def change_self_info(request):
         user = User.objects.get(id=request.session.get('user_id'))
     except User.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "未找到当前用户，重新登录",
+            "message": "未找到当前用户，重新登录",
         })
 
     # 记录本次修改的内容描述

@@ -20,7 +20,7 @@ def add_technical_change(request):
         item = Item.objects.get(id=item_id)
     except Item.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "该物品不存在",
+            "message": "该物品不存在",
         })
 
     TechnicalChange.objects.create(

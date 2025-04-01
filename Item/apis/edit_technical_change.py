@@ -20,14 +20,14 @@ def edit_technical_change(request):
         technical_change = TechnicalChange.objects.get(id=technical_change_id)
     except TechnicalChange.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": '该技术变更不存在',
+            "message": '该技术变更不存在',
         })
 
     try:
         item = Item.objects.get(id=item_id)
     except Item.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": '该物品不存在',
+            "message": '该物品不存在',
         })
 
     # 记录本次修改的内容描述

@@ -19,7 +19,7 @@ def edit_supplier(request):
         supplier = Supplier.objects.get(id=supplier_id)
     except Supplier.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": '该供应商不存在',
+            "message": '该供应商不存在',
         })
 
     # 记录本次修改的内容描述

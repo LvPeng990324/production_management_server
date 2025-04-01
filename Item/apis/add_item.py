@@ -63,7 +63,7 @@ def add_item(request):
             order = Order.objects.get(id=order_id)
         except Order.DoesNotExist:
             return json_response(code=ERROR_CODE.NOT_FOUND, data={
-                "msg": '该订单不存在',
+                "message": '该订单不存在',
             })
         new_item.order = order
 
@@ -73,7 +73,7 @@ def add_item(request):
             parent_item = Item.objects.get(id=parent_item_id)
         except Item.DoesNotExist:
             return json_response(code=ERROR_CODE.NOT_FOUND, data={
-                "msg": "该上级物品不存在",
+                "message": "该上级物品不存在",
             })
         new_item.parent_item = parent_item
 
@@ -87,7 +87,7 @@ def add_item(request):
         new_item.save()
 
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "操作会导致物品循环引用，检查上级物品合理性",
+            "message": "操作会导致物品循环引用，检查上级物品合理性",
         })
 
     # 添加检验代码

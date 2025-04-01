@@ -18,7 +18,7 @@ def login_required(func):
             # 没有登录信息，拦截
             request.session.flush()  # 清空session信息
             return json_response(code=ERROR_CODE.TOKEN_EXPIRE, data={
-                'msg': "登录信息已过期，重新登录",
+                'message': "登录信息已过期，重新登录",
             })
         # 已登录，放行
         return func(request, *args, **kwargs)

@@ -18,7 +18,7 @@ def delete_order(request):
         order = Order.objects.get(id=order_id)
     except Order.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": '该订单不存在',
+            "message": '该订单不存在',
         })
 
     # 缓存日志数据
