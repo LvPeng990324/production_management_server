@@ -19,6 +19,8 @@ def add_item(request):
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
     cost = yuan_to_fen(request.json.get('cost'))
+    sell_price = yuan_to_fen(request.json.get('sell_price'))
+    model = request.json.get('model')
     inspection_code_id_list = request.json.get('inspection_code_id_list')
     num = request.json.get('num')
     jet_position = request.json.get('jet_position')
@@ -40,6 +42,8 @@ def add_item(request):
     new_item = Item(
         name=name,
         cost=cost,
+        sell_price=sell_price,
+        model=model,
         num=num,
         jet_position=jet_position,
         item_number=item_number,
@@ -111,7 +115,9 @@ def add_item(request):
         关联订单号：{order_num}
         关联上级物品：{parent_item_name}
         成本：{cost / 100}
-        数量：num
+        销售单价：{sell_price / 100}
+        型号：{model}
+        数量：{num}
         检验代码：{inspection_code_names}
         JetPosition：{jet_position}
         ItemNumber：{item_number}

@@ -22,6 +22,9 @@ def pack_order_info(order: Order):
     for order_item in order_items:
         order_item_info_list.append({
             "name": order_item.name,
+            "cost": fen_to_yuan(order_item.cost),
+            "sell_price": fen_to_yuan(order_item.sell_price),
+            "model": order_item.model,
         })
 
     return {
@@ -112,6 +115,8 @@ def pack_item_info(item: Item):
         "inspection_code_id_list": inspection_code_id_list,
         "inspection_code_name_list": inspection_code_name_list,
         "cost": fen_to_yuan(item.cost),
+        "sell_price": fen_to_yuan(item.sell_price),
+        "model": item.model,
         "total_cost": fen_to_yuan(calc_item_total_cost(item=item)),
         "level": calc_item_level(item=item),
         "num": item.num,

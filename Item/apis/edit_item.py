@@ -21,6 +21,8 @@ def edit_item(request):
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
     cost = yuan_to_fen(request.json.get('cost'))
+    sell_price = yuan_to_fen(request.json.get('sell_price'))
+    model = request.json.get('model')
     inspection_code_id_list = request.json.get('inspection_code_id_list')
     num = request.json.get('num')
     jet_position = request.json.get('jet_position')
@@ -81,6 +83,14 @@ def edit_item(request):
     if cost != item.cost:
         edit_log_str += f'成本：{fen_to_yuan(item.cost)} -> {fen_to_yuan(cost)}\n'
         item.cost = cost
+
+    if sell_price != item.sell_price:
+        edit_log_str += f'销售单价：{fen_to_yuan(item.sell_price)} -> {fen_to_yuan(sell_price)}\n'
+        item.sell_price = sell_price
+
+    if model != item.model:
+        edit_log_str += f'型号：{item.cost} -> {model}\n'
+        item.model = model
 
     if num != item.num:
         edit_log_str += f'数量：{item.num} -> {num}\n'

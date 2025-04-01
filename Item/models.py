@@ -23,6 +23,8 @@ class Item(models.Model):
     parent_item = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, verbose_name='上级物品', help_text='上级物品')
     inspection_codes = models.ManyToManyField(to=InspectionCode, verbose_name='检验代码', help_text='检验代码')
     cost = models.IntegerField(default=0, verbose_name='成本', help_text='成本')  # 单位是分
+    sell_price = models.IntegerField(default=0, verbose_name='销售单价', help_text='销售单价')  # 单位是分
+    model = models.CharField(max_length=128, blank=True, null=True, verbose_name='型号', help_text='型号')
     num = models.IntegerField(default=1, verbose_name='数量', help_text='数量')
     jet_position = models.CharField(max_length=128, null=True, blank=True, verbose_name='工位号', help_text='工位号')
     item_number = models.CharField(max_length=128, null=True, blank=True, verbose_name='物品编号', help_text='物品编号')
