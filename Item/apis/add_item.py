@@ -21,12 +21,40 @@ def add_item(request):
     cost = yuan_to_fen(request.json.get('cost'))
     inspection_code_id_list = request.json.get('inspection_code_id_list')
     num = request.json.get('num')
+    jet_position = request.json.get('jet_position')
+    item_number = request.json.get('item_number')
+    description = request.json.get('description')
+    material = request.json.get('material')
+    weight = request.json.get('weight')
+    revision = request.json.get('revision')
+    uom = request.json.get('uom')
+    line_type = request.json.get('line_type')
+    supply_type = request.json.get('supply_type')
+    eco_number = request.json.get('eco_number')
+    danieli_standard = request.json.get('danieli_standard')
+    classification = request.json.get('classification')
+    paint_type = request.json.get('paint_type')
+    color_number = request.json.get('colcr_number')
 
     # 实例化基础属性
     new_item = Item(
         name=name,
         cost=cost,
         num=num,
+        jet_position=jet_position,
+        item_number=item_number,
+        description=description,
+        material=material,
+        weight=weight,
+        revision=revision,
+        uom=uom,
+        line_type=line_type,
+        supply_type=supply_type,
+        eco_number=eco_number,
+        danieli_standard=danieli_standard,
+        classification=classification,
+        paint_type=paint_type,
+        color_number=color_number,
     )
 
     # 判断添加关联订单
@@ -48,15 +76,19 @@ def add_item(request):
                 "msg": "该上级物品不存在",
             })
         new_item.parent_item = parent_item
-    
-    # 检查是否有循环引用
-    if not check_item_circle_quote(item=new_item):
-        return json_response(code=ERROR_CODE.NOT_FOUND, data={
-            "msg": "操作会导致物品循环引用，检查上级物品合理性",
-        })
 
     # 提交
     new_item.save()
+    
+    # 检查是否有循环引用
+    if not check_item_circle_quote(item=new_item):
+        # 去掉上级物品
+        new_item.parent_item = None
+        new_item.save()
+
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "msg": "操作会导致物品循环引用，检查上级物品合理性",
+        })
 
     # 添加检验代码
     if inspection_code_id_list:
@@ -80,7 +112,21 @@ def add_item(request):
         关联上级物品：{parent_item_name}
         成本：{cost / 100}
         数量：num
-        检验代码：{inspection_code_names}''',
+        检验代码：{inspection_code_names}
+        JetPosition：{jet_position}
+        ItemNumber：{item_number}
+        Description：{description}
+        Material：{material}
+        Weight：{weight}
+        Revision：{revision}
+        Uom：{uom}
+        LineType：{line_type}
+        SupplyType：{supply_type}
+        EcoNumber：{eco_number}
+        DanieliStandard：{danieli_standard}
+        Classification：{classification}
+        油漆种类：{paint_type}
+        色号：{color_number}''',
     )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={

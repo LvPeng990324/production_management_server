@@ -24,6 +24,20 @@ class Item(models.Model):
     inspection_codes = models.ManyToManyField(to=InspectionCode, verbose_name='检验代码', help_text='检验代码')
     cost = models.IntegerField(default=0, verbose_name='成本', help_text='成本')  # 单位是分
     num = models.IntegerField(default=1, verbose_name='数量', help_text='数量')
+    jet_position = models.CharField(max_length=128, null=True, blank=True, verbose_name='工位号', help_text='工位号')
+    item_number = models.CharField(max_length=128, null=True, blank=True, verbose_name='物品编号', help_text='物品编号')
+    description = models.TextField(null=True, blank=True, verbose_name='描述', help_text='描述')
+    material = models.CharField(max_length=128, null=True, blank=True, verbose_name='材料', help_text='材料')
+    weight = models.IntegerField(null=True, blank=True, verbose_name='重量', help_text='重量')
+    revision = models.CharField(max_length=128, blank=True, null=True, verbose_name='修订版本', help_text='修订版本')
+    uom = models.CharField(max_length=128, blank=True, null=True, verbose_name='计量单位', help_text='计量单位')
+    line_type = models.CharField(max_length=128, blank=True, null=True, verbose_name='产线类型', help_text='产线类型')
+    supply_type = models.CharField(max_length=128, blank=True, null=True, verbose_name='补充类型', help_text='补充类型')
+    eco_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='eco数', help_text='eco数')
+    danieli_standard = models.CharField(max_length=128, blank=True, null=True, verbose_name='达涅利标准', help_text='达涅利标准')
+    classification = models.CharField(max_length=128, blank=True, null=True, verbose_name='类别', help_text='类别')
+    paint_type = models.CharField(max_length=128, blank=True, null=True, verbose_name='油漆种类', help_text='油漆种类')
+    color_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='色号', help_text='色号')
 
     class Meta:
         verbose_name_plural = '物品'

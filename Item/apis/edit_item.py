@@ -23,6 +23,20 @@ def edit_item(request):
     cost = yuan_to_fen(request.json.get('cost'))
     inspection_code_id_list = request.json.get('inspection_code_id_list')
     num = request.json.get('num')
+    jet_position = request.json.get('jet_position')
+    item_number = request.json.get('item_number')
+    description = request.json.get('description')
+    material = request.json.get('material')
+    weight = request.json.get('weight')
+    revision = request.json.get('revision')
+    uom = request.json.get('uom')
+    line_type = request.json.get('line_type')
+    supply_type = request.json.get('supply_type')
+    eco_number = request.json.get('eco_number')
+    danieli_standard = request.json.get('danieli_standard')
+    classification = request.json.get('classification')
+    paint_type = request.json.get('paint_type')
+    color_number = request.json.get('colcr_number')
 
     # 转为对象
     order = None
@@ -71,6 +85,62 @@ def edit_item(request):
     if num != item.num:
         edit_log_str += f'数量：{item.num} -> {num}\n'
         item.num = num
+
+    if jet_position != item.jet_position:
+        edit_log_str += f'JetPosition：{item.jet_position} -> {jet_position}\n'
+        item.jet_position = jet_position
+
+    if item_number != item.item_number:
+        edit_log_str += f'ItemNumber：{item.item_number} -> {item_number}\n'
+        item.item_number = item_number
+
+    if description != item.description:
+        edit_log_str += f'Description：{item.description} -> {description}\n'
+        item.description = description
+
+    if material != item.material:
+        edit_log_str += f'Material：{item.material} -> {material}\n'
+        item.material = material
+
+    if weight != item.weight:
+        edit_log_str += f'Weight：{item.weight} -> {weight}\n'
+        item.weight = weight
+
+    if revision != item.revision:
+        edit_log_str += f'Revision：{item.revision} -> {revision}\n'
+        item.revision = revision
+
+    if uom != item.uom:
+        edit_log_str += f'Uom：{item.uom} -> {uom}\n'
+        item.uom = uom
+
+    if line_type != item.line_type:
+        edit_log_str += f'LineType：{item.line_type} -> {line_type}\n'
+        item.line_type = line_type
+
+    if supply_type != item.supply_type:
+        edit_log_str += f'SupplyType：{item.supply_type} -> {supply_type}\n'
+        item.supply_type = supply_type
+
+    if eco_number != item.eco_number:
+        edit_log_str += f'EcoNumber：{item.eco_number} -> {eco_number}\n'
+        item.eco_number = eco_number
+
+    if danieli_standard != item.danieli_standard:
+        edit_log_str += f'DanieliStandard：{item.danieli_standard} -> {danieli_standard}\n'
+        item.danieli_standard = danieli_standard
+
+    if classification != item.classification:
+        edit_log_str += f'Classification：{item.classification} -> {classification}\n'
+        item.classification = classification
+
+    if paint_type != item.paint_type:
+        edit_log_str += f'油漆种类：{item.paint_type} -> {paint_type}\n'
+        item.paint_type = paint_type
+
+    if color_number != item.color_number:
+        edit_log_str += f'色号：{item.color_number} -> {color_number}\n'
+        item.color_number = color_number
 
     inspection_codes = InspectionCode.objects.filter(id__in=inspection_code_id_list)
     old_inspection_code_name_set = set(item.inspection_codes.values_list('name', flat=True))

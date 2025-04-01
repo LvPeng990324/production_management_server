@@ -107,6 +107,20 @@ def pack_item_info(item: Item):
         "level": calc_item_level(item=item),
         "num": item.num,
         "total_num": calc_item_total_num(item=item),
+        "jet_position": item.jet_position,
+        "item_number": item.item_number,
+        "description": item.description,
+        "material": item.material,
+        "weight": item.weight,
+        "revision": item.revision,
+        "uom": item.uom,
+        "line_type": item.line_type,
+        "supply_type": item.supply_type,
+        "eco_number": item.eco_number,
+        "danieli_standard": item.danieli_standard,
+        "classification": item.classification,
+        "paint_type": item.paint_type,
+        "color_number": item.color_number,
     }
 
 
