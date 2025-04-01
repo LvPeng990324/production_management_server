@@ -18,11 +18,12 @@ def get_technical_change_list(request):
     name = request.GET.get('name')
 
     technical_changes = TechnicalChange.objects.all()
-    total = technical_changes.count()
 
     # 筛选
     if name:
         technical_changes = technical_changes.filter(name__contains=name)
+
+    total = technical_changes.count()
 
     # 加入分页
     paginator = Paginator(technical_changes, page_size)

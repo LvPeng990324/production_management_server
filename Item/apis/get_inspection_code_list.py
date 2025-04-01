@@ -19,11 +19,12 @@ def get_inspection_code_list(request):
     name = request.GET.get('name')
 
     inspection_codes = InspectionCode.objects.all()
-    total = inspection_codes.count()
 
     # 筛选
     if name:
         inspection_codes = inspection_codes.filter(name__contains=name)
+
+    total = inspection_codes.count()
 
     # 加入分页
     paginator = Paginator(inspection_codes, page_size)

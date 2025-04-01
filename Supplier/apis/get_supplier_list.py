@@ -17,11 +17,12 @@ def get_supplier_list(request):
     name = request.GET.get('name')
 
     suppliers = Supplier.objects.all()
-    total = suppliers.count()
 
     # 筛选
     if name:
         suppliers = suppliers.filter(name__contains=name)
+
+    total = suppliers.count()
 
     # 加入分页
     paginator = Paginator(suppliers, page_size)

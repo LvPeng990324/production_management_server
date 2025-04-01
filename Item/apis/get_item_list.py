@@ -19,11 +19,12 @@ def get_item_list(request):
     name = request.GET.get('name')
 
     items = Item.objects.all()
-    total = items.count()
 
     # 筛选
     if name:
         items = items.filter(name__contains=name)
+
+    total = items.count()
 
     # 加入分页
     paginator = Paginator(items, page_size)

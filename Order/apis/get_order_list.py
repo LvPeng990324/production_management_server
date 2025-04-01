@@ -19,11 +19,12 @@ def get_order_list(request):
     order_num = request.GET.get('order_num')
 
     orders = Order.objects.all()
-    total = orders.count()
 
     # 筛选
     if order_num:
         orders = orders.filter(order_num__contains=order_num)
+
+    total = orders.count()
 
     # 加入分页
     paginator = Paginator(orders, page_size)
