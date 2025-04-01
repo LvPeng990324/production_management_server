@@ -16,12 +16,21 @@ from utils.data_calc import calc_item_total_num
 def pack_order_info(order: Order):
     """ 打包订单信息
     """
+    # 打包第一级物品订单信息列表
+    order_item_info_list = []
+    order_items = Item.objects.filter(order=order, parent_item=None)
+    for order_item in order_items:
+        order_item_info_list.append({
+            "name": order_item.name,
+        })
+
     return {
         "order_id": order.id,
         "order_num": order.order_num,
         "order_status": order.order_status,
         "order_start_time": str(order.order_start_time),
         "total_cost": fen_to_yuan(calc_order_total_cost(order=order)),
+        "order_item_info_list": order_item_info_list,
     }
 
 
