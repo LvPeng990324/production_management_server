@@ -6,6 +6,7 @@ from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
 from utils.data_covert import yuan_to_fen
+from utils.data_covert import fen_to_yuan
 from utils.permission_check import login_required
 from utils.data_calc import check_item_circle_quote
 
@@ -38,6 +39,12 @@ def add_item(request):
     paint_type = request.json.get('paint_type')
     color_number = request.json.get('colcr_number')
     packing_number = request.json.get('packing_number')
+    pay_money_1 = yuan_to_fen(request.json.get('pay_money_1'))
+    pay_money_2 = yuan_to_fen(request.json.get('pay_money_2'))
+    receive_goods_date_1 = request.json.get('receive_goods_date_1')
+    receive_goods_date_2 = request.json.get('receive_goods_date_2')
+    send_goods_date_1 = request.json.get('send_goods_date_1')
+    send_goods_date_2 = request.json.get('send_goods_date_2')
 
     # 实例化基础属性
     new_item = Item(
@@ -61,6 +68,9 @@ def add_item(request):
         paint_type=paint_type,
         color_number=color_number,
         packing_number=packing_number,
+        pay_money_list=[pay_money_1, pay_money_2],
+        receive_goods_date_list=[receive_goods_date_1, receive_goods_date_2],
+        send_goods_date_list=[send_goods_date_1, send_goods_date_2],
     )
 
     # 判断添加关联订单
@@ -116,8 +126,8 @@ def add_item(request):
         detail=f'''名字：{name}
         关联订单号：{order_num}
         关联上级物品：{parent_item_name}
-        成本：{cost / 100}
-        销售单价：{sell_price / 100}
+        成本：{fen_to_yuan(cost)}
+        销售单价：{fen_to_yuan(sell_price)}
         型号：{model}
         数量：{num}
         检验代码：{inspection_code_names}
@@ -135,7 +145,10 @@ def add_item(request):
         Classification：{classification}
         油漆种类：{paint_type}
         色号：{color_number}
-        箱单号：{packing_number}''',
+        箱单号：{packing_number}
+        付款：{fen_to_yuan(pay_money_1)}、{fen_to_yuan(pay_money_2)}
+        收货：{receive_goods_date_1}、{receive_goods_date_2}
+        发货：{send_goods_date_1}、{send_goods_date_2}''',
     )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={

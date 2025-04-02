@@ -33,6 +33,12 @@ def pack_order_info(order: Order):
             "total_sell_price": fen_to_yuan(item_children_total_data_dict.get('total_sell_price')),
             "model": order_item.model,
             "packing_number": order_item.packing_number,
+            "pay_money_1": fen_to_yuan(get_list_default_value(data=order_item.pay_money_list, index=0, default=0)),
+            "pay_money_2": fen_to_yuan(get_list_default_value(data=order_item.pay_money_list, index=1, default=0)),
+            "receive_goods_date_1": get_list_default_value(data=order_item.receive_goods_date_list, index=0, default=''),
+            "receive_goods_date_2": get_list_default_value(data=order_item.receive_goods_date_list, index=1, default=''),
+            "send_goods_date_1": get_list_default_value(data=order_item.send_goods_date_list, index=0, default=''),
+            "send_goods_date_2": get_list_default_value(data=order_item.send_goods_date_list, index=1, default=''),
         })
 
     return {
@@ -150,6 +156,12 @@ def pack_item_info(item: Item):
         "paint_type": item.paint_type,
         "color_number": item.color_number,
         "packing_number": item.packing_number,
+        "pay_money_1": fen_to_yuan(get_list_default_value(data=item.pay_money_list, index=0, default=0)),
+        "pay_money_2": fen_to_yuan(get_list_default_value(data=item.pay_money_list, index=1, default=0)),
+        "receive_goods_date_1": get_list_default_value(data=item.receive_goods_date_list, index=0, default=''),
+        "receive_goods_date_2": get_list_default_value(data=item.receive_goods_date_list, index=1, default=''),
+        "send_goods_date_1": get_list_default_value(data=item.send_goods_date_list, index=0, default=''),
+        "send_goods_date_2": get_list_default_value(data=item.send_goods_date_list, index=1, default=''),
     }
 
 

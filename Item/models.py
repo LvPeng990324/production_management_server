@@ -41,6 +41,9 @@ class Item(models.Model):
     paint_type = models.CharField(max_length=128, blank=True, null=True, verbose_name='油漆种类', help_text='油漆种类')
     color_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='色号', help_text='色号')
     packing_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='箱单号', help_text='箱单号')
+    pay_money_list = models.JSONField(default=list, verbose_name='付款', help_text='付款')  # 单位是分
+    receive_goods_date_list = models.JSONField(default=list, verbose_name='收货日期列表', help_text='收货日期列表')
+    send_goods_date_list = models.JSONField(default=list, verbose_name='发货日期列表', help_text='发货日期列表')
 
     class Meta:
         verbose_name_plural = '物品'
