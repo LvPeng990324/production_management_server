@@ -54,3 +54,30 @@ def fen_to_yuan(fen: int):
         return fen // 100
 
     return fen / 100
+
+
+def get_list_default_value(data: list, index: int, default):
+    """ 获取列表的值，没有的话就返回指定的默认值
+    """
+    if len(data) <= index:
+        return default
+
+    return data[index]
+
+
+def set_list_value_by_index(data: list, index: int, value, default=None):
+    """ 通过下标给数组set值
+    如果跨越空位的话，就用default来填充
+    """
+    # 计算需要扩展的长度
+    required_length = index + 1
+    current_length = len(data)
+    
+    # 如果索引超出范围，填充默认值
+    if required_length > current_length:
+        extension = [default] * (required_length - current_length)
+        data += extension  # 直接扩展列表
+    
+    # 设置目标索引的值
+    data[index] = value
+    return data

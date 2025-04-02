@@ -15,11 +15,15 @@ def add_order(request):
     order_num = request.json.get('order_num')
     order_status = request.json.get('order_status')
     order_start_time = request.json.get('order_start_time')
+    collect_money_1 = request.json.get('collect_money_1')
+    collect_money_2 = request.json.get('collect_money_2')
+    collect_money_3 = request.json.get('collect_money_3')
 
     Order.objects.create(
-        order_num = order_num,
-        order_status = order_status,
-        order_start_time = order_start_time,
+        order_num=order_num,
+        order_status=order_status,
+        order_start_time=order_start_time,
+        collect_money_list=[collect_money_1, collect_money_2, collect_money_3],
     )
 
     # 记录用户日志
@@ -28,7 +32,8 @@ def add_order(request):
         action='新增订单',
         detail=f'''订单号：{order_num}
         订单状态：{OrderStatus(order_status).label}
-        开始时间：{order_start_time}'''
+        开始时间：{order_start_time}
+        收款：{collect_money_1}、{collect_money_2}、{collect_money_3}'''
     )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={

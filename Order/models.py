@@ -15,6 +15,7 @@ class Order(models.Model):
     order_num = models.CharField(max_length=32, verbose_name='订单号', help_text='订单号')
     order_status = models.IntegerField(choices=OrderStatus.choices, verbose_name='订单状态', help_text='订单状态')
     order_start_time = models.DateTimeField(verbose_name='订单开始时间', help_text='订单开始时间')
+    collect_money_list = models.JSONField(default=list, verbose_name='收款列表', help_text='收款列表')
 
     class Meta:
         verbose_name_plural = '订单'

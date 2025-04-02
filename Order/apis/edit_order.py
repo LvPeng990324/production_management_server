@@ -5,6 +5,8 @@ from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.data_covert import str_to_datetime
 from utils.data_covert import datetime_to_str
+from utils.data_covert import get_list_default_value
+from utils.data_covert import set_list_value_by_index
 from utils.user_log import add_user_log
 from utils.permission_check import login_required
 
@@ -18,6 +20,9 @@ def edit_order(request):
     order_num = request.json.get('order_num')
     order_status = request.json.get('order_status')
     order_start_time = request.json.get('order_start_time')
+    collect_money_1 = request.json.get('collect_money_1')
+    collect_money_2 = request.json.get('collect_money_2')
+    collect_money_3 = request.json.get('collect_money_3')
 
     try:
         order = Order.objects.get(id=order_id)
@@ -42,6 +47,19 @@ def edit_order(request):
     if order_start_time != order.order_start_time:
         edit_log_str += f'开始时间：{datetime_to_str(order.order_start_time)} -> {datetime_to_str(order_start_time)}\n'
         order.order_start_time = order_start_time
+
+    collect_money_list_1 = get_list_default_value(data=order.collect_money_list, index=0, default=0)
+    collect_money_list_2 = get_list_default_value(data=order.collect_money_list, index=1, default=0)
+    collect_money_list_3 = get_list_default_value(data=order.collect_money_list, index=2, default=0)
+    if collect_money_list_1 != collect_money_1:
+        edit_log_str += f'收款1：{collect_money_list_1} -> {collect_money_1}\n'
+        order.collect_money_list = set_list_value_by_index(data=order.collect_money_list, index=0, value=collect_money_1, default=0)
+    if collect_money_list_2 != collect_money_2:
+        edit_log_str += f'收款2：{collect_money_list_2} -> {collect_money_2}\n'
+        order.collect_money_list = set_list_value_by_index(data=order.collect_money_list, index=1, value=collect_money_2, default=0)
+    if collect_money_list_3 != collect_money_3:
+        edit_log_str += f'收款3：{collect_money_list_3} -> {collect_money_3}\n'
+        order.collect_money_list = set_list_value_by_index(data=order.collect_money_list, index=2, value=collect_money_3, default=0)
 
     order.save()
 
