@@ -5,6 +5,7 @@ from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.user_log import add_user_log
 from utils.permission_check import login_required
+from utils.data_covert import yuan_to_fen
 
 
 @login_required
@@ -15,9 +16,9 @@ def add_order(request):
     order_num = request.json.get('order_num')
     order_status = request.json.get('order_status')
     order_start_time = request.json.get('order_start_time')
-    collect_money_1 = request.json.get('collect_money_1')
-    collect_money_2 = request.json.get('collect_money_2')
-    collect_money_3 = request.json.get('collect_money_3')
+    collect_money_1 = yuan_to_fen(request.json.get('collect_money_1'))
+    collect_money_2 = yuan_to_fen(request.json.get('collect_money_2'))
+    collect_money_3 = yuan_to_fen(request.json.get('collect_money_3'))
 
     Order.objects.create(
         order_num=order_num,

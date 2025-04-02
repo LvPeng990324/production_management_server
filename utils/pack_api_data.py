@@ -41,9 +41,9 @@ def pack_order_info(order: Order):
         "order_status": order.order_status,
         "order_start_time": str(order.order_start_time),
         "total_cost": fen_to_yuan(calc_order_total_cost(order=order)),
-        "collect_money_1": get_list_default_value(data=order.collect_money_list, index=0, default=0),
-        "collect_money_2": get_list_default_value(data=order.collect_money_list, index=1, default=0),
-        "collect_money_3": get_list_default_value(data=order.collect_money_list, index=2, default=0),
+        "collect_money_1": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=0, default=0)),
+        "collect_money_2": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=1, default=0)),
+        "collect_money_3": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=2, default=0)),
         "order_item_info_list": order_item_info_list,
     }
 

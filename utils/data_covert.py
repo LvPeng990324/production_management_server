@@ -48,7 +48,7 @@ def yuan_to_fen(yuan: Union[float, str]):
 def fen_to_yuan(fen: int):
     """ 分转元
     """
-    fen = fen or 0
+    fen = int(fen or 0)
 
     if fen % 100 == 0:
         return fen // 100
