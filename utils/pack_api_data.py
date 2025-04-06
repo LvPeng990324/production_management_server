@@ -4,6 +4,7 @@ from Item.models import Item
 from Item.models import TechnicalChange
 from Item.models import InspectionCode
 from SystemManagement.models import UserLog
+from Customer.models import Customer
 
 from utils.data_covert import datetime_to_str
 from utils.data_covert import fen_to_yuan
@@ -271,3 +272,29 @@ def pack_user_log_info_list(user_logs: list[UserLog]):
         user_log_info_list.append(pack_user_log_info(user_log=user_log))
 
     return user_log_info_list
+
+
+def pack_customer_info(customer: Customer):
+    """ 打包客户信息
+    """
+    return {
+        "customer_id": customer.id,
+        "name": customer.name,
+        "contact_person": customer.contact_person,
+        "phone": customer.phone,
+        "email": customer.email,
+        "tax_number": customer.tax_number,
+        "address": customer.address,
+        "bank_card_number": customer.bank_card_number,
+        "bank_name": customer.bank_name,
+    }
+
+
+def pack_customer_info_list(customers: list[Customer]):
+    """ 打包客户信息列表
+    """
+    customer_info_list = []
+    for customer in customers:
+        customer_info_list.append(pack_customer_info(customer=customer))
+
+    return customer_info_list
