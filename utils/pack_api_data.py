@@ -7,6 +7,7 @@ from SystemManagement.models import UserLog
 from Customer.models import Customer
 
 from utils.data_covert import datetime_to_str
+from utils.data_covert import date_to_str
 from utils.data_covert import fen_to_yuan
 from utils.data_covert import get_list_default_value
 from utils.data_calc import calc_item_children_total_data
@@ -46,7 +47,7 @@ def pack_order_info(order: Order):
         "order_id": order.id,
         "order_num": order.order_num,
         "order_status": order.order_status,
-        "order_start_time": str(order.order_start_time),
+        "delivery_date": date_to_str(order.delivery_date),
         "total_cost": fen_to_yuan(calc_order_total_cost(order=order)),
         "collect_money_1": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=0, default=0)),
         "collect_money_2": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=1, default=0)),

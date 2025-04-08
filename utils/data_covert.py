@@ -6,10 +6,22 @@ from typing import Union
 def str_to_datetime(datetime_str: str):
     """ 字符串转时间对象
     """
+    if not datetime_str:
+        return None
+
     if 'T' in datetime_str:
         return datetime.datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M:%S')
     else:
         return datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+
+
+def str_to_date(date_str: str):
+    """ 字符串转日期对象
+    """
+    if not date_str:
+        return None
+
+    return datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
 
 
 def date_to_str(date: datetime.date):

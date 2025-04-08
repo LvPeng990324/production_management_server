@@ -7,5 +7,4 @@ class OrderInformation(admin.ModelAdmin):
     list_display = (
         'order_num',
         'order_status',
-        'order_start_time',
     )

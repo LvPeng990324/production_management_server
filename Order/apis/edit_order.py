@@ -4,7 +4,9 @@ from Order.models import OrderStatus
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
 from utils.data_covert import str_to_datetime
+from utils.data_covert import str_to_date
 from utils.data_covert import datetime_to_str
+from utils.data_covert import date_to_str
 from utils.data_covert import get_list_default_value
 from utils.data_covert import set_list_value_by_index
 from utils.data_covert import yuan_to_fen
@@ -21,7 +23,7 @@ def edit_order(request):
     order_id = request.json.get('order_id')
     order_num = request.json.get('order_num')
     order_status = request.json.get('order_status')
-    order_start_time = request.json.get('order_start_time')
+    delivery_date = request.json.get('delivery_date')
     collect_money_1 = yuan_to_fen(request.json.get('collect_money_1'))
     collect_money_2 = yuan_to_fen(request.json.get('collect_money_2'))
     collect_money_3 = yuan_to_fen(request.json.get('collect_money_3'))
@@ -45,10 +47,10 @@ def edit_order(request):
         edit_log_str += f'订单状态：{OrderStatus(order.order_status).label} -> {OrderStatus(order_status).label}\n'
         order.order_status = order_status
 
-    order_start_time = str_to_datetime(order_start_time)
-    if order_start_time != order.order_start_time:
-        edit_log_str += f'开始时间：{datetime_to_str(order.order_start_time)} -> {datetime_to_str(order_start_time)}\n'
-        order.order_start_time = order_start_time
+    delivery_date = str_to_date(delivery_date)
+    if delivery_date != order.delivery_date:
+        edit_log_str += f'交货日期：{datetime_to_str(order.delivery_date)} -> {date_to_str(delivery_date)}\n'
+        order.delivery_date = delivery_date
 
     collect_money_list_1 = get_list_default_value(data=order.collect_money_list, index=0, default=0)
     collect_money_list_2 = get_list_default_value(data=order.collect_money_list, index=1, default=0)
