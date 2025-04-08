@@ -25,6 +25,7 @@ def add_order(request):
         order_status=order_status,
         order_start_time=order_start_time,
         collect_money_list=[collect_money_1, collect_money_2, collect_money_3],
+        worker_id=request.session.get('user_id'),
     )
 
     # 记录用户日志

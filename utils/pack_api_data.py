@@ -52,6 +52,7 @@ def pack_order_info(order: Order):
         "collect_money_2": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=1, default=0)),
         "collect_money_3": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=2, default=0)),
         "order_item_info_list": order_item_info_list,
+        "worker_name": order.worker.name,
     }
 
 
