@@ -1,6 +1,7 @@
 from Order.models import Order
 from Supplier.models import Supplier
 from Item.models import Item
+from Item.models import ItemTypeDef
 from Item.models import TechnicalChange
 from Item.models import InspectionCode
 from SystemManagement.models import UserLog
@@ -41,6 +42,8 @@ def pack_order_info(order: Order):
             "receive_goods_date_2": get_list_default_value(data=order_item.receive_goods_date_list, index=1, default=''),
             "send_goods_date_1": get_list_default_value(data=order_item.send_goods_date_list, index=0, default=''),
             "send_goods_date_2": get_list_default_value(data=order_item.send_goods_date_list, index=1, default=''),
+            "item_type_label": ItemTypeDef(order_item.item_type).label,
+            "item_type_value": order_item.item_type,
         })
 
     return {
@@ -180,6 +183,8 @@ def pack_item_info(item: Item):
         "receive_goods_date_2": get_list_default_value(data=item.receive_goods_date_list, index=1, default=''),
         "send_goods_date_1": get_list_default_value(data=item.send_goods_date_list, index=0, default=''),
         "send_goods_date_2": get_list_default_value(data=item.send_goods_date_list, index=1, default=''),
+        "item_type_label": ItemTypeDef(item.item_type).label,
+        "item_type_value": item.item_type,
         "contract_number": item.contract_number,
         "supplier_id": item.supplier_id,
         "supplier_name": item.supplier.name if item.supplier else '/',

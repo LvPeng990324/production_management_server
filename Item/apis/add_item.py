@@ -1,4 +1,5 @@
 from Item.models import Item
+from Item.models import ItemTypeDef
 from Item.models import InspectionCode
 from Order.models import Order
 from Supplier.models import Supplier
@@ -18,6 +19,7 @@ def add_item(request):
     POST请求
     """
     name = request.json.get('name')
+    item_type_value = request.json.get('item_type_value')
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
     cost = yuan_to_fen(request.json.get('cost'))
@@ -106,6 +108,15 @@ def add_item(request):
                 "message": "该供应商不存在",
             })
         new_item.supplier = supplier
+    
+    # 判断物品类型
+    try:
+        item_type = ItemTypeDef(item_type_value)
+    except ValueError:
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "message": "物品类型不存在",
+        })
+    new_item.item_type = item_type
 
     # 提交
     new_item.save()
@@ -141,6 +152,7 @@ def add_item(request):
         request=request,
         action=f'新增物品',
         detail=f'''名字：{name}
+        物品类型：{item_type.label}
         关联订单号：{order_num}
         关联上级物品：{parent_item_name}
         成本：{fen_to_yuan(cost)}

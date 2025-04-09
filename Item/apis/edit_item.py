@@ -1,4 +1,5 @@
 from Item.models import Item
+from Item.models import ItemTypeDef
 from Item.models import InspectionCode
 from Order.models import Order
 from Supplier.models import Supplier
@@ -21,6 +22,7 @@ def edit_item(request):
     """
     item_id = request.json.get('item_id')
     name = request.json.get('name')
+    item_type_value = request.json.get('item_type_value')
     order_id = request.json.get('order_id')
     parent_item_id = request.json.get('parent_item_id')
     cost = yuan_to_fen(request.json.get('cost'))
@@ -80,6 +82,13 @@ def edit_item(request):
         supplier = Supplier.objects.get(id=supplier_id)
     except Supplier.DoesNotExist:
         supplier = None
+    
+    try:
+        item_type = ItemTypeDef(item_type_value)
+    except ValueError:
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "message": "物品类型不存在",
+        })
 
     # 记录本次修改的内容描述
     edit_log_str = ''
@@ -88,6 +97,10 @@ def edit_item(request):
     if name != item.name:
         edit_log_str += f'名字：{item.name} -> {name}\n'
         item.name = name
+
+    if item_type != item.item_type:
+        edit_log_str += f'物品类型：{ItemTypeDef(item.item_type).label} -> {item_type.label}\n'
+        item.item_type = item_type
 
     if order != item.order:
         edit_log_str += f'订单：{str(item.order)} -> {str(order)}\n'

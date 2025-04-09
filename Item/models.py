@@ -4,6 +4,13 @@ from Order.models import Order
 from Supplier.models import Supplier
 
 
+class ItemTypeDef(models.IntegerChoices):
+    """ 物品类型定义
+    """
+    PART = 1, '零件'
+    ASSEMBLE = 2, '装配'
+
+
 class InspectionCode(models.Model):
     """ 检验代码
     """
@@ -47,6 +54,7 @@ class Item(models.Model):
     send_goods_date_list = models.JSONField(default=list, verbose_name='发货日期列表', help_text='发货日期列表')
     contract_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='合同号', help_text='合同号')
     supplier = models.ForeignKey(Supplier, null=True, blank=True, on_delete=models.PROTECT, verbose_name='供应商', help_text='供应商')
+    item_type = models.IntegerField(choices=ItemTypeDef.choices, default=ItemTypeDef.PART, verbose_name='物品类型', help_text='物品类型')
 
     class Meta:
         verbose_name_plural = '物品'
