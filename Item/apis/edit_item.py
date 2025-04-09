@@ -1,6 +1,7 @@
 from Item.models import Item
 from Item.models import InspectionCode
 from Order.models import Order
+from Supplier.models import Supplier
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
@@ -48,6 +49,8 @@ def edit_item(request):
     receive_goods_date_2 = request.json.get('receive_goods_date_2')
     send_goods_date_1 = request.json.get('send_goods_date_1')
     send_goods_date_2 = request.json.get('send_goods_date_2')
+    contract_number = request.json.get('contract_number')
+    supplier_id = request.json.get('supplier_id')
 
     # 转为对象
     order = None
@@ -72,6 +75,11 @@ def edit_item(request):
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
             "message": '该物品不存在',
         })
+
+    try:
+        supplier = Supplier.objects.get(id=supplier_id)
+    except Supplier.DoesNotExist:
+        supplier = None
 
     # 记录本次修改的内容描述
     edit_log_str = ''
@@ -198,6 +206,14 @@ def edit_item(request):
     if send_goods_date_list_2 != send_goods_date_2:
         edit_log_str += f'发货2：{send_goods_date_list_2} -> {send_goods_date_2}\n'
         item.send_goods_date_list = set_list_value_by_index(data=item.send_goods_date_list, index=1, value=send_goods_date_2, default='')
+    
+    if contract_number != item.contract_number:
+        edit_log_str += f'合同号：{item.contract_number} -> {contract_number}\n'
+        item.contract_number = contract_number
+
+    if supplier != item.supplier:
+        edit_log_str += f'供应商：{item.supplier.name if item.supplier else "/"} -> {supplier.name if supplier else "/"}\n'
+        item.supplier = supplier
 
     # 检查循环引用
     if not check_item_circle_quote(item=item):

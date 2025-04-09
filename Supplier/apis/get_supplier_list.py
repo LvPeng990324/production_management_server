@@ -4,6 +4,7 @@ from Supplier.models import Supplier
 from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_supplier_info_list
+from utils.pack_api_data import pack_supplier_select_info_list
 from utils.permission_check import login_required
 
 
@@ -39,3 +40,21 @@ def get_supplier_list(request):
         "total": total,
         "list": supplier_info_list,
     })
+
+
+@login_required
+def get_supplier_select_list(request):
+    """ 获取供应商选项列表
+    GET请求
+    """
+    supplier_name = request.GET.get('supplier_name')
+
+    suppliers = Supplier.objects.all()
+
+    # 筛选
+    if supplier_name:
+        suppliers = suppliers.filter(name__contains=supplier_name)
+
+    supplier_select_info_list = pack_supplier_select_info_list(suppliers=suppliers)
+
+    return json_response(code=ERROR_CODE.SUCCESS, data=supplier_select_info_list)

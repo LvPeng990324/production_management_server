@@ -102,6 +102,19 @@ def pack_supplier_info_list(suppliers: list[Supplier]):
     return supplier_info_list
 
 
+def pack_supplier_select_info_list(suppliers: list[Supplier]):
+    """ 打包供应商选项信息列表
+    """
+    supplier_select_info_list = []
+    for supplier in suppliers:
+        supplier_select_info_list.append({
+            "value": supplier.id,
+            "label": supplier.name,
+        })
+
+    return supplier_select_info_list
+
+
 def pack_item_info(item: Item):
     """ 打包物品信息
     """
@@ -167,6 +180,9 @@ def pack_item_info(item: Item):
         "receive_goods_date_2": get_list_default_value(data=item.receive_goods_date_list, index=1, default=''),
         "send_goods_date_1": get_list_default_value(data=item.send_goods_date_list, index=0, default=''),
         "send_goods_date_2": get_list_default_value(data=item.send_goods_date_list, index=1, default=''),
+        "contract_number": item.contract_number,
+        "supplier_id": item.supplier_id,
+        "supplier_name": item.supplier.name if item.supplier else '/',
     }
 
 

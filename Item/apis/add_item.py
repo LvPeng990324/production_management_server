@@ -1,6 +1,7 @@
 from Item.models import Item
 from Item.models import InspectionCode
 from Order.models import Order
+from Supplier.models import Supplier
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
@@ -45,6 +46,8 @@ def add_item(request):
     receive_goods_date_2 = request.json.get('receive_goods_date_2')
     send_goods_date_1 = request.json.get('send_goods_date_1')
     send_goods_date_2 = request.json.get('send_goods_date_2')
+    contract_number = request.json.get('contract_number')
+    supplier_id = request.json.get('supplier_id')
 
     # 实例化基础属性
     new_item = Item(
@@ -71,6 +74,7 @@ def add_item(request):
         pay_money_list=[pay_money_1, pay_money_2],
         receive_goods_date_list=[receive_goods_date_1, receive_goods_date_2],
         send_goods_date_list=[send_goods_date_1, send_goods_date_2],
+        contract_number=contract_number,
     )
 
     # 判断添加关联订单
@@ -92,6 +96,16 @@ def add_item(request):
                 "message": "该上级物品不存在",
             })
         new_item.parent_item = parent_item
+
+    # 判断添加供应商
+    if supplier_id:
+        try:
+            supplier = Supplier.objects.get(id=supplier_id)
+        except Supplier.DoesNotExist:
+            return json_response(code=ERROR_CODE.NOT_FOUND, data={
+                "message": "该供应商不存在",
+            })
+        new_item.supplier = supplier
 
     # 提交
     new_item.save()
@@ -118,6 +132,9 @@ def add_item(request):
     parent_item_name = '无'
     if new_item.parent_item:
         parent_item_name = new_item.parent_item.name
+    supplier_name = '无'
+    if new_item.supplier:
+        supplier_name = new_item.supplier.name
     inspection_code_name_list = list(new_item.inspection_codes.values_list('name', flat=True))
     inspection_code_names = '、'.join(inspection_code_name_list)
     add_user_log(
@@ -146,6 +163,8 @@ def add_item(request):
         油漆种类：{paint_type}
         色号：{color_number}
         箱单号：{packing_number}
+        合同号：{contract_number}
+        供应商：{supplier_name}
         付款：{fen_to_yuan(pay_money_1)}、{fen_to_yuan(pay_money_2)}
         收货：{receive_goods_date_1}、{receive_goods_date_2}
         发货：{send_goods_date_1}、{send_goods_date_2}''',

@@ -1,6 +1,7 @@
 from django.db import models
 
 from Order.models import Order
+from Supplier.models import Supplier
 
 
 class InspectionCode(models.Model):
@@ -44,6 +45,8 @@ class Item(models.Model):
     pay_money_list = models.JSONField(default=list, verbose_name='付款', help_text='付款')  # 单位是分
     receive_goods_date_list = models.JSONField(default=list, verbose_name='收货日期列表', help_text='收货日期列表')
     send_goods_date_list = models.JSONField(default=list, verbose_name='发货日期列表', help_text='发货日期列表')
+    contract_number = models.CharField(max_length=128, blank=True, null=True, verbose_name='合同号', help_text='合同号')
+    supplier = models.ForeignKey(Supplier, null=True, blank=True, on_delete=models.PROTECT, verbose_name='供应商', help_text='供应商')
 
     class Meta:
         verbose_name_plural = '物品'
