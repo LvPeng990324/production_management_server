@@ -1,5 +1,6 @@
 from Order.models import Order
 from Order.models import OrderStatus
+from Customer.models import Customer
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
@@ -27,12 +28,21 @@ def edit_order(request):
     collect_money_1 = yuan_to_fen(request.json.get('collect_money_1'))
     collect_money_2 = yuan_to_fen(request.json.get('collect_money_2'))
     collect_money_3 = yuan_to_fen(request.json.get('collect_money_3'))
+    customer_id = request.json.get('customer_id')
 
     try:
         order = Order.objects.get(id=order_id)
     except Order.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
             "message": '该订单不存在',
+        })
+    
+    # 取出客户
+    try:
+        customer = Customer.objects.get(id=customer_id)
+    except Customer.DoesNotExist:
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "message": '客户不存在',
         })
 
     # 记录本次修改的内容描述
@@ -64,6 +74,10 @@ def edit_order(request):
     if collect_money_list_3 != collect_money_3:
         edit_log_str += f'收款3：{fen_to_yuan(collect_money_list_3)} -> {fen_to_yuan(collect_money_3)}\n'
         order.collect_money_list = set_list_value_by_index(data=order.collect_money_list, index=2, value=collect_money_3, default=0)
+    
+    if customer != order.customer:
+        edit_log_str += f'客户：{order.customer.name} -> {customer.name}\n'
+        order.customer = customer
 
     order.save()
 

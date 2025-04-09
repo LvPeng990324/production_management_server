@@ -54,6 +54,8 @@ def pack_order_info(order: Order):
         "collect_money_3": fen_to_yuan(get_list_default_value(data=order.collect_money_list, index=2, default=0)),
         "order_item_info_list": order_item_info_list,
         "worker_name": order.worker.name,
+        "customer_name": order.customer.name,
+        "customer_id": order.customer_id,
     }
 
 
@@ -300,3 +302,16 @@ def pack_customer_info_list(customers: list[Customer]):
         customer_info_list.append(pack_customer_info(customer=customer))
 
     return customer_info_list
+
+
+def pack_customer_select_info_list(customers: list[Customer]):
+    """ 打包客户选项信息列表
+    """
+    customer_select_info_list = []
+    for customer in customers:
+        customer_select_info_list.append({
+            "value": customer.id,
+            "label": customer.name,
+        })
+    
+    return customer_select_info_list

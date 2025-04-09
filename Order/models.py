@@ -1,6 +1,7 @@
 from django.db import models
 
 from UserManagement.models import User
+from Customer.models import Customer
 
 
 class OrderStatus(models.IntegerChoices):
@@ -19,6 +20,7 @@ class Order(models.Model):
     delivery_date = models.DateField(blank=True, null=True, verbose_name='交货日期', help_text='交货日期')
     collect_money_list = models.JSONField(default=list, verbose_name='收款列表', help_text='收款列表')
     worker = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='负责人', help_text='负责人')
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, verbose_name='客户', help_text='客户')
 
     class Meta:
         verbose_name_plural = '订单'

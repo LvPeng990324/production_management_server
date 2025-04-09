@@ -3,6 +3,7 @@ from django.urls import path
 from Customer.apis.add_customer import add_customer
 from Customer.apis.delete_customer import delete_customer
 from Customer.apis.get_customer_list import get_customer_list
+from Customer.apis.get_customer_list import get_customer_select_list
 from Customer.apis.edit_customer import edit_customer
 
 
@@ -15,6 +16,8 @@ urlpatterns = [
     path('delete-customer/', delete_customer, name='delete_customer'),
     # 获取客户列表
     path('get-customer-list/', get_customer_list, name='get_customer_list'),
+    # 获取客户选项信息列表
+    path('get-customer-select-list/', get_customer_select_list, name='get_customer_select_list'),
     # 编辑供应商
     path('edit-customer/', edit_customer, name='edit_customer'),
 ]

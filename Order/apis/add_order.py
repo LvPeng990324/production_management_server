@@ -1,5 +1,6 @@
 from Order.models import Order
 from Order.models import OrderStatus
+from Customer.models import Customer
 
 from utils.custom_response import json_response
 from utils.custom_response import ERROR_CODE
@@ -21,6 +22,15 @@ def add_order(request):
     collect_money_1 = yuan_to_fen(request.json.get('collect_money_1'))
     collect_money_2 = yuan_to_fen(request.json.get('collect_money_2'))
     collect_money_3 = yuan_to_fen(request.json.get('collect_money_3'))
+    customer_id = request.json.get('customer_id')
+
+    # 取出客户
+    try:
+        customer = Customer.objects.get(id=customer_id)
+    except Customer.DoesNotExist:
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "message": '客户不存在',
+        })
 
     Order.objects.create(
         order_num=order_num,
@@ -28,6 +38,7 @@ def add_order(request):
         delivery_date=delivery_date,
         collect_money_list=[collect_money_1, collect_money_2, collect_money_3],
         worker_id=request.session.get('user_id'),
+        customer=customer,
     )
 
     # 记录用户日志
@@ -37,6 +48,7 @@ def add_order(request):
         detail=f'''订单号：{order_num}
         订单状态：{OrderStatus(order_status).label}
         交货日期：{date_to_str(delivery_date)}
+        客户：{customer.name}
         收款：{collect_money_1}、{collect_money_2}、{collect_money_3}'''
     )
 

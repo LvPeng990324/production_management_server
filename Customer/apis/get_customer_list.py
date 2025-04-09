@@ -4,6 +4,7 @@ from Customer.models import Customer
 from utils.custom_response import ERROR_CODE
 from utils.custom_response import json_response
 from utils.pack_api_data import pack_customer_info_list
+from utils.pack_api_data import pack_customer_select_info_list
 from utils.permission_check import login_required
 
 
@@ -39,3 +40,21 @@ def get_customer_list(request):
         "total": total,
         "list": customer_info_list,
     })
+
+
+@login_required
+def get_customer_select_list(request):
+    """ 获取客户选项列表
+    GET请求
+    """
+    customer_name = request.GET.get('customer_name')
+
+    customers = Customer.objects.all()
+
+    # 筛选
+    if customer_name:
+        customers = customers.filter(name__contains=customer_name)
+
+    order_select_info_list = pack_customer_select_info_list(customers=customers)
+
+    return json_response(code=ERROR_CODE.SUCCESS, data=order_select_info_list)
