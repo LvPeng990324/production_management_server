@@ -6,6 +6,7 @@ from Item.models import TechnicalChange
 from Item.models import InspectionCode
 from SystemManagement.models import UserLog
 from Customer.models import Customer
+from StoreHouse.models import StoreHouse
 
 from utils.data_covert import datetime_to_str
 from utils.data_covert import date_to_str
@@ -336,3 +337,26 @@ def pack_customer_select_info_list(customers: list[Customer]):
         })
     
     return customer_select_info_list
+
+
+def pack_store_house_info(store_house: StoreHouse):
+    """ 打包库存信息
+    """
+    return {
+        "store_house_id": store_house.id,
+        "remain_count": store_house.remain_count,
+        "item_name": store_house.item.name,
+        "contract_number": store_house.item.contract_number,
+        "item_number": store_house.item.item_number,
+        "model": store_house.item.model,
+    }
+
+
+def pack_store_house_info_list(store_houses: list[StoreHouse]):
+    """ 打包库存信息列表
+    """
+    store_house_info_list = []
+    for store_house in store_houses:
+        store_house_info_list.append(pack_store_house_info(store_house=store_house))
+
+    return store_house_info_list
