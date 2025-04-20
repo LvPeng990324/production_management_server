@@ -59,3 +59,6 @@ def get_item_select_list(request):
     item_select_info_list = pack_item_select_info_list(items=items)
 
     return json_response(code=ERROR_CODE.SUCCESS, data=item_select_info_list)
+
+
+# TODO 获取合同号选项

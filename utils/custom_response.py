@@ -7,6 +7,8 @@ class ERROR_CODE(Enum):
     SUCCESS = 0
     NOT_FOUND = 1
     AUTH_FAIL = 2
+    ILLEGAL = 3
+
     TOKEN_EXPIRE = 401
 
 
