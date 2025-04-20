@@ -13,6 +13,8 @@ from Item.apis.delete_inspection_code import delete_inspection_code
 from Item.apis.edit_inspection_code import edit_inspection_code
 from Item.apis.get_inspection_code_list import get_inspection_code_list
 from Item.apis.get_item_list import get_item_select_list
+from Item.apis.get_item_list import get_contract_number_select_list
+from Item.apis.get_item_list import get_item_number_select_list
 from Item.apis.get_inspection_code_list import get_inspection_code_select_list
 
 
@@ -29,6 +31,10 @@ urlpatterns = [
     path('delete-item/', delete_item, name='delete_item'),
     # 获取物品选项列表
     path('get-item-select-list/', get_item_select_list, name='get_item_select_list'),
+    # 获取合同号选项列表
+    path('get-contract-number-select-list/', get_contract_number_select_list, name='get_contract_number_select_list'),
+    # 获取合同号选项列表
+    path('get-item-number-select-list/', get_item_number_select_list, name='get_item_number_select_list'),
     # 新增技术变更
     path('add-technical-change/', add_technical_change, name='add_technical_change'),
     # 获取技术变更列表
