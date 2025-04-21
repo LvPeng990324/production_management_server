@@ -16,19 +16,24 @@ def out_store(request):
     """ 出库
     POST请求
     """
-    item_id = request.json.get('item_id')
-    count = request.json.get('count')
+    contract_number = request.json.get('contract_number')
+    item_number = request.json.get('item_number')
+    count = int(request.json.get('out_store_count'))
 
     # 取出这个物品
     try:
-        item = Item.objects.get(id=item_id)
+        item = Item.objects.get(contract_number=contract_number, item_number=item_number)
     except Item.DoesNotExist:
         return json_response(code=ERROR_CODE.NOT_FOUND, data={
             "message": "物品不存在",
         })
+    except Item.MultipleObjectsReturned:
+        return json_response(code=ERROR_CODE.NOT_FOUND, data={
+            "message": "物品存在多个，请联系管理员",
+        })
 
     try:
-        store_house = StoreHouse.objects.get(item_id=item_id)
+        store_house = StoreHouse.objects.get(item=item)
     except StoreHouse.DoesNotExist:
         store_house = StoreHouse.objects.create(item=item, remain_count=0)
 
