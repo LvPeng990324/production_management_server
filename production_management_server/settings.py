@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'SystemManagement.apps.SystemmanagementConfig',
     'Customer.apps.CustomerConfig',
     'StoreHouse.apps.StorehouseConfig',
+    'Purchase.apps.PurchaseConfig',
 ]
 
 MIDDLEWARE = [

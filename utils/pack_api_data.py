@@ -7,6 +7,7 @@ from Item.models import InspectionCode
 from SystemManagement.models import UserLog
 from Customer.models import Customer
 from StoreHouse.models import StoreHouse
+from Purchase.models import PurchaseRequirement
 
 from utils.data_covert import datetime_to_str
 from utils.data_covert import date_to_str
@@ -360,3 +361,26 @@ def pack_store_house_info_list(store_houses: list[StoreHouse]):
         store_house_info_list.append(pack_store_house_info(store_house=store_house))
 
     return store_house_info_list
+
+
+def pack_purchase_requirement_info(purchase_requirement: PurchaseRequirement):
+    """ 打包采购需求信息
+    """
+    return {
+        "purchase_requirement_id": purchase_requirement.id,
+        "order_num": purchase_requirement.item.order.order_num,
+        "item_id": purchase_requirement.item_id,
+        "item_name": purchase_requirement.item.name,
+        "count": purchase_requirement.count,
+        "date": date_to_str(purchase_requirement.date),
+    }
+
+
+def pack_purchase_requirement_info_list(purchase_requirements: list[PurchaseRequirement]):
+    """ 打包采购需求信息列表
+    """
+    purchase_requirement_info_list = []
+    for purchase_requirement in purchase_requirements:
+        purchase_requirement_info_list.append(pack_purchase_requirement_info(purchase_requirement=purchase_requirement))
+
+    return purchase_requirement_info_list
