@@ -45,8 +45,6 @@ def edit_item(request):
     paint_type = request.json.get('paint_type')
     color_number = request.json.get('colcr_number')
     packing_number = request.json.get('packing_number')
-    pay_money_1 = yuan_to_fen(request.json.get('pay_money_1'))
-    pay_money_2 = yuan_to_fen(request.json.get('pay_money_2'))
     receive_goods_date_1 = request.json.get('receive_goods_date_1')
     receive_goods_date_2 = request.json.get('receive_goods_date_2')
     send_goods_date_1 = request.json.get('send_goods_date_1')
@@ -192,15 +190,6 @@ def edit_item(request):
     if old_inspection_code_name_set != new_inspection_code_name_set:
         edit_log_str += f'检验代码：{str(old_inspection_code_name_set)} -> {str(new_inspection_code_name_set)}\n'
         item.inspection_codes.set(inspection_codes)
-
-    pay_money_list_1 = get_list_default_value(data=item.pay_money_list, index=0, default=0)
-    pay_money_list_2 = get_list_default_value(data=item.pay_money_list, index=1, default=0)
-    if pay_money_list_1 != pay_money_1:
-        edit_log_str += f'付款1：{fen_to_yuan(pay_money_list_1)} -> {fen_to_yuan(pay_money_1)}\n'
-        item.pay_money_list = set_list_value_by_index(data=item.pay_money_list, index=0, value=pay_money_1, default=0)
-    if pay_money_list_2 != pay_money_2:
-        edit_log_str += f'付款2：{fen_to_yuan(pay_money_list_2)} -> {fen_to_yuan(pay_money_2)}\n'
-        item.pay_money_list = set_list_value_by_index(data=item.pay_money_list, index=1, value=pay_money_2, default=0)
 
     receive_goods_date_list_1 = get_list_default_value(data=item.receive_goods_date_list, index=0, default=0)
     receive_goods_date_list_2 = get_list_default_value(data=item.receive_goods_date_list, index=1, default=0)

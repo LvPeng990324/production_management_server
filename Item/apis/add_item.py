@@ -42,8 +42,6 @@ def add_item(request):
     paint_type = request.json.get('paint_type')
     color_number = request.json.get('colcr_number')
     packing_number = request.json.get('packing_number')
-    pay_money_1 = yuan_to_fen(request.json.get('pay_money_1'))
-    pay_money_2 = yuan_to_fen(request.json.get('pay_money_2'))
     receive_goods_date_1 = request.json.get('receive_goods_date_1')
     receive_goods_date_2 = request.json.get('receive_goods_date_2')
     send_goods_date_1 = request.json.get('send_goods_date_1')
@@ -73,7 +71,6 @@ def add_item(request):
         paint_type=paint_type,
         color_number=color_number,
         packing_number=packing_number,
-        pay_money_list=[pay_money_1, pay_money_2],
         receive_goods_date_list=[receive_goods_date_1, receive_goods_date_2],
         send_goods_date_list=[send_goods_date_1, send_goods_date_2],
         contract_number=contract_number,
@@ -177,7 +174,6 @@ def add_item(request):
         箱单号：{packing_number}
         合同号：{contract_number}
         供应商：{supplier_name}
-        付款：{fen_to_yuan(pay_money_1)}、{fen_to_yuan(pay_money_2)}
         收货：{receive_goods_date_1}、{receive_goods_date_2}
         发货：{send_goods_date_1}、{send_goods_date_2}''',
     )
