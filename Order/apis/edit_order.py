@@ -29,6 +29,7 @@ def edit_order(request):
     collect_money_2 = yuan_to_fen(request.json.get('collect_money_2'))
     collect_money_3 = yuan_to_fen(request.json.get('collect_money_3'))
     customer_id = request.json.get('customer_id')
+    pay_method = request.json.get('pay_method')
 
     try:
         order = Order.objects.get(id=order_id)
@@ -74,10 +75,14 @@ def edit_order(request):
     if collect_money_list_3 != collect_money_3:
         edit_log_str += f'收款3：{fen_to_yuan(collect_money_list_3)} -> {fen_to_yuan(collect_money_3)}\n'
         order.collect_money_list = set_list_value_by_index(data=order.collect_money_list, index=2, value=collect_money_3, default=0)
-    
+
     if customer != order.customer:
         edit_log_str += f'客户：{order.customer.name} -> {customer.name}\n'
         order.customer = customer
+
+    if pay_method != order.pay_method:
+        edit_log_str += f'付款方式：{order.pay_method} -> {pay_method}\n'
+        order.pay_method = pay_method
 
     order.save()
 

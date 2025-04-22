@@ -23,6 +23,7 @@ def add_order(request):
     collect_money_2 = yuan_to_fen(request.json.get('collect_money_2'))
     collect_money_3 = yuan_to_fen(request.json.get('collect_money_3'))
     customer_id = request.json.get('customer_id')
+    pay_method = request.json.get('pay_method')
 
     # 取出客户
     try:
@@ -39,6 +40,7 @@ def add_order(request):
         collect_money_list=[collect_money_1, collect_money_2, collect_money_3],
         worker_id=request.session.get('user_id'),
         customer=customer,
+        pay_method=pay_method,
     )
 
     # 记录用户日志
@@ -49,7 +51,8 @@ def add_order(request):
         订单状态：{OrderStatus(order_status).label}
         交货日期：{date_to_str(delivery_date)}
         客户：{customer.name}
-        收款：{collect_money_1}、{collect_money_2}、{collect_money_3}'''
+        收款：{collect_money_1}、{collect_money_2}、{collect_money_3}
+        付款方式：{pay_method}'''
     )
 
     return json_response(code=ERROR_CODE.SUCCESS, data={

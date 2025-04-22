@@ -21,6 +21,7 @@ class Order(models.Model):
     collect_money_list = models.JSONField(default=list, verbose_name='收款列表', help_text='收款列表')
     worker = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='负责人', help_text='负责人')
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, verbose_name='客户', help_text='客户')
+    pay_method = models.CharField(max_length=128, blank=True, null=True, verbose_name='付款方式', help_text='付款方式')
 
     class Meta:
         verbose_name_plural = '订单'

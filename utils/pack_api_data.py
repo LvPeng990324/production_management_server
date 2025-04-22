@@ -59,6 +59,7 @@ def pack_order_info(order: Order):
         "worker_name": order.worker.name,
         "customer_name": order.customer.name,
         "customer_id": order.customer_id,
+        "pay_method": order.pay_method,
     }
 
 
